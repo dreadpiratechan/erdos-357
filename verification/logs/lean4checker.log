@@ -1,0 +1,19 @@
+== 2026-10-23T23:26:13Z lean4checker: lean4checker.exe
+Searching for modules matching: [Erdos.Proofs.P0357]
+Found 1 modules to check
+Erdos.Proofs.P0357 exit 0 (32 s)
+Searching for modules matching: [Erdos.Proofs.P0357Skip]
+Found 1 modules to check
+Erdos.Proofs.P0357Skip exit 0 (25 s)
+Searching for modules matching: [Erdos.Proofs.P0357Upper]
+Found 1 modules to check
+Erdos.Proofs.P0357Upper exit 0 (23 s)
+Searching for modules matching: [Erdos.Proofs.P0357Upper2]
+Found 1 modules to check
+Erdos.Proofs.P0357Upper2 exit 0 (23 s)
+Searching for modules matching: [Erdos.Proofs.P0357Upper4Gen]
+Found 1 modules to check
+Erdos.Proofs.P0357Upper4Gen exit 0 (21 s)
+Searching for modules matching: [Erdos.Proofs.P0357Upper4]
+Found 1 modules to check
+Erdos.Proofs.P0357Upper4 exit 0 (25 s)

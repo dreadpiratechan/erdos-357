@@ -1,0 +1,5 @@
+count k=26 n=66 prune=1 threads=8: 0 admissible 26-sets with max <= 66  [14143925202 nodes, 11900 tasks, 143.24s]
+count k=27 n=68 prune=1 threads=8: 0 admissible 27-sets with max <= 68  [21390565977 nodes, 12782 tasks, 215.52s]
+count k=27 n=69 prune=1 threads=8: 1 admissible 27-sets with max <= 69  [32253751315 nodes, 13706 tasks, 314.45s]
+count k=28 n=70 prune=1 threads=8: 0 admissible 28-sets with max <= 70  [32253751315 nodes, 13706 tasks, 303.20s]
+count k=28 n=72 prune=1 threads=8: 0 admissible 28-sets with max <= 72  [72701801709 nodes, 15686 tasks, 686.14s]

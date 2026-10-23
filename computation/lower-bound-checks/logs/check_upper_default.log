@@ -1,0 +1,25 @@
+check_upper.py NMAX=10000000
+U1+U3 design conditions and closing arithmetic, 12 <= n <= 10000000
+  all hold; worst 1620(n-t) - 797n - 810P = 3143 at n = 491 (Lean allows 8000)  (0.8s)
+U2 fiber degree <= 2 and supports in (t, theta], 12 <= n <= 100000
+  ok  (26.1s); at n=10^6 zones (fractions of n): Y5 [0.5000,0.5556] Y9 [0.5556,0.6000] X5 [0.6000,0.6667] X9 [0.6173,0.6667]; patterns P = 16047 vs 13n/810 = 16049.4
+U4 real-form step and comparisons, n <= 2000000
+  sqrt step ok; explicit integer bound floor((797n+1620 isqrt(2theta)+8000)/1620) < ceil(n/2) for every n in (21800, 2000000]  (1.3s)
+  n, new/n, [(n+1)/2 + isqrt n]/n (Lean f_le_half_add_sqrt), [n/2 + (3/2)2^(-2/3) n^(2/3)]/n (Pickhardt)
+            10000  0.512675  0.510000  0.543860
+           100000  0.498370  0.503160  0.520358
+          1000000  0.493982  0.501000  0.509449
+         10000000  0.492608  0.500316  0.504386
+       1000000000  0.492039  0.500032  0.500945
+    1000000000000  0.491977  0.500001  0.500094
+U5 intermediate inequalities on concrete admissible sets
+  1755 admissible sets (n = 12..3000): all inequalities hold; min slack Prop 4 = 1, Prop 6' = 0; largest k/sqrt(n) = 4.071  (0.3s)
+U6 exhaustive over all admissible sets, n <= 21
+  n=5: 23 admissible sets (incl. empty), exact f(n)=4, explicit bound=9
+  n=10: 344 admissible sets (incl. empty), exact f(n)=6, explicit bound=13
+  n=15: 3908 admissible sets (incl. empty), exact f(n)=9, explicit bound=16
+  n=18: 15975 admissible sets (incl. empty), exact f(n)=10, explicit bound=18
+  n=21: 60079 admissible sets (incl. empty), exact f(n)=11, explicit bound=20
+  ok  (0.9s)
+
+ALL CHECKS PASSED  (29s)

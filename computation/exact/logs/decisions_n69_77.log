@@ -1,0 +1,5 @@
+# 2026-10-23T13:35:00-07:00 free RAM (GB): 17.07
+count k=28 n=69 prune=2 threads=7: 0 admissible 28-sets with max <= 69  [2921438674 nodes, 11949 tasks, 58.95s]
+# 2026-10-23T13:35:59-07:00 free RAM (GB): 16.23
+count k=29 n=77 prune=2 threads=7: 0 admissible 29-sets with max <= 77  [63850867140 nodes, 19235 tasks, 1351.12s]
+# decisions done 2026-10-23T13:58:31-07:00

@@ -1,0 +1,18 @@
+terms 26813 min 101531 max 20000000 ratio terms/sqrt(max) = 5.996
+bucket 0: 22467133 sums, duplicate adjacent pairs 0  [14s]
+bucket 1: 22466118 sums, duplicate adjacent pairs 0  [19s]
+bucket 2: 22471237 sums, duplicate adjacent pairs 0  [25s]
+bucket 3: 22460728 sums, duplicate adjacent pairs 0  [28s]
+bucket 4: 22460499 sums, duplicate adjacent pairs 0  [32s]
+bucket 5: 22463853 sums, duplicate adjacent pairs 0  [35s]
+bucket 6: 22461937 sums, duplicate adjacent pairs 0  [39s]
+bucket 7: 22469673 sums, duplicate adjacent pairs 0  [43s]
+bucket 8: 22466721 sums, duplicate adjacent pairs 0  [46s]
+bucket 9: 22468911 sums, duplicate adjacent pairs 0  [53s]
+bucket 10: 22466413 sums, duplicate adjacent pairs 0  [60s]
+bucket 11: 22469077 sums, duplicate adjacent pairs 0  [67s]
+bucket 12: 22467630 sums, duplicate adjacent pairs 0  [73s]
+bucket 13: 22473400 sums, duplicate adjacent pairs 0  [78s]
+bucket 14: 22474353 sums, duplicate adjacent pairs 0  [85s]
+bucket 15: 22474208 sums, duplicate adjacent pairs 0  [92s]
+total block sums 359481891 expected 359481891 duplicates 0 VALID

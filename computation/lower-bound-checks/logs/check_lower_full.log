@@ -1,0 +1,36 @@
+== 2026-10-23T07:44:17-07:00 check_lower.py full (sha256 ffba058f5680045b)
+check_lower.py mode=full  numpy 2.2.6
+L1 pattern facts
+  sizes [1, 6, 3, 2, 3, 6, 1, 6, 3, 2, 3, 6] -> partition of Z/42: equal window sums force equal lengths mod 12
+L3 window formula (W), 20000 random windows
+  ok
+L4 phase filter
+  dE values [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]; triples passing both congruences: 90, all with dE = 0
+L8 assembly arithmetic
+  ok; constants 15/sqrt21 = 3.273268 = 360/sqrt12096 = 3.273268; 12/sqrt21 = 2.618615
+L2 modulus-42 family, m = 1..60
+  all window sums distinct for m = 1..60  (0.7s)
+  control m=10 (k=120): bases 42t, t<=Lean t=56: 37 collide, first distinct t=36
+  control m=20 (k=240): bases 42t, t<=Lean t=211: 175 collide, first distinct t=163
+L5 skip rows j = 1..4, every u in W_j
+  j=1 k=360 |W|=2000: no-pair u all distinct (1806); with pair 194 (collide 43, distinct anyway 151); disjoint colliding pairs 1608, unpredicted type 0  (5s)
+  j=2 k=720 |W|=4000: no-pair u all distinct (3209); with pair 791 (collide 196, distinct anyway 595); disjoint colliding pairs 16254, unpredicted type 0  (45s)
+  j=3 k=1080 |W|=6000: no-pair u all distinct (4281); with pair 1719 (collide 455, distinct anyway 1264); disjoint colliding pairs 60158, unpredicted type 0  (171s)
+  j=4 k=1440 |W|=8000: no-pair u all distinct (5403); with pair 2597 (collide 813, distinct anyway 1784); disjoint colliding pairs 149124, unpredicted type 0  (603s)
+L6 larger skip rows j in [10, 25, 50]
+  j=10 k=3600 u=36235 (random good): distinct=True, max=1547146, k/sqrt(max)=2.8943  (0s)
+  j=10 k=3600 u=46791 (random good): distinct=True, max=1990498, k/sqrt(max)=2.5517  (0s)
+  control j=10 first u with a divisor pair u=28921: 2236 colliding sums, 1118 disjoint pairs, unpredicted type 0
+  j=25 k=9000 u=180301 (left end): distinct=True, max=7635718, k/sqrt(max)=3.2570  (4s)
+  j=25 k=9000 u=207952 (random good): distinct=True, max=8797060, k/sqrt(max)=3.0344  (3s)
+  control j=25 first u with a divisor pair u=180303: 6532 colliding sums, 3266 disjoint pairs, unpredicted type 0
+  j=50 k=18000 u=720601 (left end): distinct=True, max=30391318, k/sqrt(max)=3.2651  (16s)
+  j=50 k=18000 u=724506 (random good): distinct=True, max=30555328, k/sqrt(max)=3.2563  (16s)
+L7 exact bad-u counts for j in [500, 501, 1000, 2000]
+  j=500: |W|=1000000, bad u=337866 (0.3379), divisor pairs=919267 (0.9193), Lean union bound=984964 (0.9850); L in [36021,72510] vs [72j,144j+514]=[36000,72514]; left end good=True, first good u=72006001  (0.1s)
+  j=501: |W|=1002000, bad u=338402 (0.3377), divisor pairs=921192 (0.9194), Lean union bound=986909 (0.9849); L in [36093,72654] vs [72j,144j+514]=[36072,72658]; left end good=True, first good u=72294301  (0.0s)
+  j=1000: |W|=2000000, bad u=664039 (0.3320), divisor pairs=1843528 (0.9218), Lean union bound=1957160 (0.9786); L in [72021,144510] vs [72j,144j+514]=[72000,144514]; left end good=True, first good u=288012001  (0.1s)
+  j=2000: |W|=4000000, bad u=1306045 (0.3265), divisor pairs=3691772 (0.9229), Lean union bound=3901553 (0.9754); L in [144021,288510] vs [72j,144j+514]=[144000,288514]; left end good=True, first good u=1152024001  (0.2s)
+
+ALL CHECKS PASSED  (870s)
+exit 0

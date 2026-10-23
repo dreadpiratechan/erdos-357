@@ -1,0 +1,24 @@
+# Expected values for the 18 reverse-greedy sets, taken from the table of an earlier run of the same tool
+# (command: rgreedy rev N --cmax 6.5 --dump rev_N.txt).  check_sets.py compares sets/rev_N.txt with columns n, k, fnv1a64.
+# fnv1a64 = 64-bit FNV-1a of the decimal text "a_1,a_2,...,a_k" (offset basis 0xcbf29ce484222325, prime 0x100000001b3).
+# table_bits and time_s are informational (hash-table size 2^table_bits and tool wall time in seconds of that earlier run);
+# the n = 20000000 row of the earlier run used table_bits 29, the default of the current source is 30 (see README.md).
+n	k	fnv1a64	table_bits	time_s
+1000	115	d0bf5bcee463a356	16	0.0
+1778	156	77e575aed5c8cb64	17	0.0
+3162	227	829e6e83a2f68409	17	0.0
+5623	313	464294faa0949d69	18	0.0
+10000	435	6729f65791456e68	19	0.0
+17783	610	af903255612a065b	20	0.0
+31623	821	b06227fa30d7c41f	21	0.0
+56234	1136	f5d03266b113d1cb	22	0.1
+100000	1556	cca93c9881fa0ce3	22	0.2
+177828	2128	b8d2ef1211d9e5c1	23	0.5
+316228	2914	853986e2a0e328b2	24	1.1
+562341	3993	bfe6fce42ee30c4e	25	2.5
+1000000	5424	31b66e12b2b122ae	26	6.2
+1778279	7401	73f873079e274567	27	16.1
+3162278	10054	860c590f423ebe61	27	37.0
+5623413	13673	f3400e3ff71f0df6	28	100.6
+10000000	18550	60dcc239a58687e8	29	272.8
+20000000	26813	4031502380f50c87	29	1039.9

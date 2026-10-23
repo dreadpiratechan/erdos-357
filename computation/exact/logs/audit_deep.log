@@ -1,0 +1,6 @@
+count k=26 n=66 prune=2 threads=1: 0 admissible 26-sets with max <= 66  [2563131703 nodes, 11171 tasks, 355.89s]
+audit: 128156 sampled nodes had their candidate sets re-derived naively, all identical
+count k=27 n=68 prune=2 threads=1: 0 admissible 27-sets with max <= 68  [3511032181 nodes, 11996 tasks, 487.83s]
+audit: 175551 sampled nodes had their candidate sets re-derived naively, all identical
+count k=28 n=70 prune=2 threads=1: 0 admissible 28-sets with max <= 70  [4795998821 nodes, 12862 tasks, 701.36s]
+audit: 239799 sampled nodes had their candidate sets re-derived naively, all identical

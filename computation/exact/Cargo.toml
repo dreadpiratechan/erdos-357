@@ -1,0 +1,20 @@
+[package]
+name = "e357exact"
+version = "0.1.0"
+edition = "2021"
+description = "Independent exhaustive solver for Erdos Problem 357 (reproducibility package)"
+
+[[bin]]
+name = "exact"
+path = "src/main.rs"
+
+[[bin]]
+name = "brute"
+path = "src/bin/brute.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+debug = false
+panic = "abort"

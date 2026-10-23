@@ -1,0 +1,2 @@
+N = 22 valid sequences (len>=0): 94692 enumerated in 0.3 s
+all assertions passed; max length = 11 ; instance counts: {'L41': 12305030, 'L43': 108730, 'L45': 2152114, 'P46': 25199141, 'L47': 10157378} ; time 102.8 s

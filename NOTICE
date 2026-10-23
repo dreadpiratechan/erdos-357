@@ -1,0 +1,21 @@
+Erdos Problem 357: Lean formalization, verification scripts and computations
+Copyright 2026 Chandler Snively
+
+This product includes software developed as part of Formal Conjectures
+(https://github.com/google-deepmind/formal-conjectures), Copyright Google DeepMind and the
+Formal Conjectures contributors, licensed under the Apache License 2.0:
+
+  - verification/upstream/FormalConjectures_ErdosProblems_357.lean (commit d16e05a, verbatim)
+  - verification/upstream/FormalConjectures_ErdosProblems_357_at_4b5e5275a2.lean (commit 4b5e5275a2, verbatim)
+  - the definitions `HasDistinctSums` and `f` in lean/Erdos/Proofs/P0357.lean, and the copies that
+    verification/make_upstream_pin.py writes into verification/generated/, which reproduce those
+    upstream definitions
+
+The licence of those files is in verification/upstream/LICENSE-formal-conjectures-Apache-2.0.
+
+computation/reference/oeis_A364132.txt contains terms of the On-Line Encyclopedia of Integer
+Sequences, sequence A364132 (https://oeis.org/A364132), licensed under CC BY-SA 4.0
+(https://creativecommons.org/licenses/by-sa/4.0/).
+
+The Lean files depend on Mathlib (https://github.com/leanprover-community/mathlib4, Apache License
+2.0), which is fetched at build time and not included here.

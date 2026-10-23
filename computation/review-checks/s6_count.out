@@ -1,0 +1,9 @@
+j = 1..499: every j has a good u: True (j without: []); smallest proportion of good u = 0.6384 at j = 16  [13.7s]
+j=500: |U|=1000000, bad=337866, paper bound 1944.4j+12768 = 984968.0, ratio bound/bad = 2.92
+j=230: |U|=460000, bad=158479, paper bound 1944.4j+12768 = 459980.0, ratio bound/bad = 2.90
+j=229: |U|=458000, bad=157751, paper bound 1944.4j+12768 = 458035.6, ratio bound/bad = 2.90
+j=1000: |U|=2000000, bad=664039, paper bound 1944.4j+12768 = 1957168.0, ratio bound/bad = 2.95
+
+real	0m34.018s
+user	0m0.000s
+sys	0m0.000s

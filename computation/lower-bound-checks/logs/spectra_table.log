@@ -1,0 +1,14 @@
+G(0..11) = [0, 2, 9, 20, 3, 29, 21, 23, 30, 41, 24, 8]  G(12) = 0
+D_0  size 1: [0]  = listed table
+D_1  size 6: [2, 7, 11, 25, 26, 34]  = listed table
+D_2  size 3: [9, 18, 36]  = listed table
+D_3  size 2: [1, 20]  = listed table
+D_4  size 3: [3, 12, 27]  = listed table
+D_5  size 6: [10, 14, 19, 29, 37, 38]  = listed table
+D_6  size 1: [21]  = listed table
+D_7  size 6: [4, 5, 13, 23, 28, 32]  = listed table
+D_8  size 3: [15, 30, 39]  = listed table
+D_9  size 2: [22, 41]  = listed table
+D_10 size 3: [6, 24, 33]  = listed table
+D_11 size 6: [8, 16, 17, 31, 35, 40]  = listed table
+partition of Z/42: True

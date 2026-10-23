@@ -1,0 +1,28 @@
+PASS g starts 2,7,11,25,26,34,44,49,53,67,68,76,86
+PASS increments 5,4,14,1,8,10 periodic
+PASS eps = (2,0,-3,4,-2,-1), sum 0
+PASS pi(0..5) = (0,2,2,-1,3,1), pi(6)=0, range [-1,3]
+PASS g_t = 7t + eps_t
+PASS -3 <= eps <= 4
+PASS G(0..11)  [0, 2, 9, 20, 3, 29, 21, 23, 30, 41, 24, 8]
+PASS G is 12-periodic
+PASS spectra tables D_0..D_11 equal the manuscript's
+PASS pairwise disjoint, sizes sum to 42, partition Z/42
+PASS residue of every block sum lies in D_{len mod 12} (random shifts by multiples of 42)  549000 blocks
+PASS Theorem 1.2 sequence valid for m = 1..60, last term 21m^2+105m+34
+PASS 12B > 7(12m+1)^2/4 for B=21(m^2+m+2) (exact, m=0..10^4)
+PASS 12B - 7(12m+1)^2/4 = 210 m + 504 - 7/4
+PASS Theorem 1.2 real-form derivation (Q=isqrt(floor(n/21)), m=Q-3)  []
+PASS 12/sqrt21 = 2.618614...  2.6186147
+PASS f(21m^2+105m+46) with m=0 : 46 = 21*0+0+46 ; and m=1 -> 172
+
+Remark 5.2: largest invalid offset B = 42 t (scan downward from 21(m^2+m+2))
+   m=20: B_paper=8862, largest invalid 42t = 7476, ratio = 0.8436
+   m=60: B_paper=76902, largest invalid 42t = 72534, ratio = 0.9432
+   m=100: B_paper=212142, largest invalid 42t = 205422, ratio = 0.9683
+
+ALL PASS
+
+real	0m17.554s
+user	0m0.000s
+sys	0m0.015s

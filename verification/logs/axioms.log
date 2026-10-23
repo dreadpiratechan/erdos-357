@@ -1,0 +1,15 @@
+Erdos.Proofs.P0357: 432 constants, 411 theorems
+Erdos.Proofs.P0357Skip: 134 constants, 124 theorems
+Erdos.Proofs.P0357Upper: 140 constants, 131 theorems
+Erdos.Proofs.P0357Upper2: 59 constants, 57 theorems
+Erdos.Proofs.P0357Upper4Gen: 27 constants, 24 theorems
+Erdos.Proofs.P0357Upper4: 231 constants, 230 theorems
+TOTAL: 1023 constants (977 theorems) in 6 modules
+axioms used by any of them: [Quot.sound, Classical.choice, propext]
+axiom declarations inside these modules: 0
+AXIOM AUDIT PASSED: every constant depends only on propext, Classical.choice, Quot.sound
+
+real	0m59.060s
+user	0m0.000s
+sys	0m0.000s
+exit=0

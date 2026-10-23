@@ -1,0 +1,26 @@
+name = "erdos357"
+defaultTargets = ["Erdos357"]
+
+# Standalone verification project for the Erdos Problem 357 paper.
+# Lean v4.27.0 (lean-toolchain) and Mathlib v4.27.0, pinned by commit in lake-manifest.json
+# (mathlib a3a10db0e9d66acbebf76c5e6a135066525ac900). The Lean sources under Erdos/Proofs/ are
+# byte-identical copies of the research repository files at the snapshot commit (see ../README.md).
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.27.0"
+
+# The six proof modules, under their original module names.
+[[lean_lib]]
+name = "Erdos"
+globs = ["Erdos.+"]
+
+# Root module: imports all six, so `lake build` compiles every one of them.
+[[lean_lib]]
+name = "Erdos357"

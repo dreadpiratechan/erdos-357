@@ -1,0 +1,4 @@
+free RAM before: 18.5 GB
+rev n=20000000 k=26813 k/sqrt(n)=5.9956 sum=510388004266 table_bits=29 load=0.670 probes=16772839100 accepts=26813 rejects=19973187 fnv=4031502380f50c87 time=1029.2s
+wall 1029 s
+IDENTICAL to sets/rev_20000000.txt (byte-for-byte)

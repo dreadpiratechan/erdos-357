@@ -1,0 +1,2 @@
+n in 12..6000: violations: [] ; max degree seen: 2
+max over 12<=n<2e6 of 1620(n-t) - 810 P - 797 n = 3143 at n = 491 (must be <= 8000)

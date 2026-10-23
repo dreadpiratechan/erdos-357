@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  If you use these results, please cite the paper. Until it has an arXiv identifier,
+  cite this repository and the release tag you used.
+title: "Erdős Problem 357: Lean formalization, verification scripts and computations"
+version: "1.0.0"
+license: Apache-2.0
+repository-code: "https://github.com/dreadpiratechan/erdos-357"
+url: "https://quanalabs.com"
+authors:
+  - family-names: Snively
+    given-names: Chandler
+    affiliation: Quana Labs
+keywords:
+  - Erdős problems
+  - distinct consecutive sums
+  - additive combinatorics
+  - formal verification
+  - Lean 4
+abstract: >-
+  Lean 4 formalization, verification scripts and computations for the paper
+  "Bounds for increasing sequences with distinct consecutive sums (Erdős Problem 357)".
+  It proves f(n) <= (44273/90000) n + 2 sqrt(n) + 177792 and f(n) >= (15/sqrt(21)) sqrt(n) - 1800
+  for n >= 12096*504^2, where f(n) is the largest number of integers 1 <= a_1 < ... < a_k <= n
+  with pairwise distinct consecutive sums. The results were produced with AI systems; see
+  docs/PROVENANCE.md.
+preferred-citation:
+  type: article
+  title: "Bounds for increasing sequences with distinct consecutive sums (Erdős Problem 357)"
+  authors:
+    - family-names: Snively
+      given-names: Chandler
+      affiliation: Quana Labs
+  year: 2026
+  notes: "Preprint. The arXiv identifier will be added on release."

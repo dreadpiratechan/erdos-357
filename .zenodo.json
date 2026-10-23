@@ -1,0 +1,14 @@
+{
+  "title": "Erdős Problem 357: Lean formalization, verification scripts and computations",
+  "upload_type": "software",
+  "description": "<p>Lean 4 formalization, verification scripts and computations for the paper <em>Bounds for increasing sequences with distinct consecutive sums (Erdős Problem 357)</em> by Chandler Snively (Quana Labs). The formalization proves f(n) &le; (44273/90000) n + 2&radic;n + 177792 for all n, f(n) &ge; (12/&radic;21)&radic;n &minus; 48 for all n, and f(n) &ge; (15/&radic;21)&radic;n &minus; 1800 for n &ge; 12096&middot;504<sup>2</sup>, for the function f of Erdős Problem 357 as defined in the Formal Conjectures project. Exact values of f(n) for n &le; 77 are included as computational evidence. The open question whether f(n) = o(n) is not addressed.</p><p>The results, proofs and formalization were produced by AI systems in a project directed by the author; see docs/PROVENANCE.md. They have not been checked by an independent human mathematician or peer reviewed.</p><p>Code: Apache-2.0. Manuscript and documentation: CC BY 4.0.</p>",
+  "creators": [
+    {"name": "Snively, Chandler", "affiliation": "Quana Labs"}
+  ],
+  "license": "Apache-2.0",
+  "keywords": ["Erdős problems", "distinct consecutive sums", "additive combinatorics", "formal verification", "Lean 4", "Mathlib"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/dreadpiratechan/erdos-357", "relation": "isSupplementTo", "scheme": "url"}
+  ],
+  "version": "1.0.0"
+}

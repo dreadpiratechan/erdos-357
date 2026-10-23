@@ -1,0 +1,939 @@
+\pdfoutput=1
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{alltt}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\hypersetup{pdftitle={Bounds for increasing sequences with distinct consecutive sums (Erd\H{o}s Problem 357)},
+  pdfauthor={Chandler Snively}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\setlength{\emergencystretch}{3em}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\isqrt}[1]{\lfloor\sqrt{#1}\rfloor}
+
+\title[Bounds for sequences with distinct consecutive sums]{Bounds for increasing sequences with distinct consecutive sums
+(Erd\H{o}s Problem 357)}
+
+\author{Chandler Snively}
+\address{Quana Labs}
+\email{lab@quanalabs.com}
+\urladdr{https://quanalabs.com}
+
+\date{23 October 2026}
+
+\subjclass[2020]{11B13, 11B75, 05D05}
+\keywords{distinct consecutive sums, block sums, Sidon sets, Erd\H{o}s problems, formal verification, Lean}
+
+\begin{document}
+
+\begin{abstract}
+Let $f(n)$ be the largest $k$ for which there are integers $1\le a_1<\dots<a_k\le n$ such that the sums
+$a_i+a_{i+1}+\dots+a_{i'}$ $(1\le i\le i'\le k)$ are pairwise distinct. Whether $f(n)=o(n)$ is open (Erd\H{o}s Problem 357).
+We prove
+\[
+  f(n)\;\le\;\frac{44273}{90000}\,n+2\sqrt n+177792\qquad\text{for all } n\ge0,
+\]
+so that $\limsup_{n\to\infty} f(n)/n\le\frac{44273}{90000}=\frac12-\frac{2908}{360000}$; the upper bounds on $f$ that we found in
+the literature all have leading term at least $n/2$. We also prove
+\[
+  f(n)\;\ge\;\frac{15}{\sqrt{21}}\sqrt n-1800\qquad\text{for all } n\ge 12096\cdot504^2,
+\]
+so that $\liminf_{n\to\infty}f(n)/\sqrt n\ge 15/\sqrt{21}=3.27326\ldots$; the best lower bound we found in the literature is
+$(4/\sqrt3-o(1))\sqrt n$. The upper bound combines a crossing argument with a lemma that lengthens short blocks by one term, and forces
+many integers of $(n/2,2n/3]$ to be missing from the sequence by using pairs of runs of consecutive integers with equal sums. The lower
+bound uses a periodic pattern of residues modulo $42$ with one added jump, which reduces every possible coincidence of block sums to a
+divisor equation that a counting argument avoids. The paper gives complete written proofs of these bounds. They are also formally
+verified in Lean~4 with Mathlib, for a function $f$ that is checked in Lean to be definitionally equal to the one defined in the Formal
+Conjectures project; they do not settle the open question whether $f(n)=o(n)$.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+Call a finite sequence of positive integers $a_1,\dots,a_k$ \emph{valid} if its consecutive sums
+\[
+  a_i+a_{i+1}+\dots+a_{i'} \qquad (1\le i\le i'\le k)
+\]
+are pairwise distinct. Following the Erd\H{o}s problems database \cite{EP357}, let
+\[
+  f(n)=\max\{k:\ \text{there is a valid sequence } 1\le a_1<a_2<\dots<a_k\le n\}.
+\]
+Problem~357 of \cite{EP357} asks how $f(n)$ grows, and in particular whether $f(n)=o(n)$. Erd\H{o}s and Graham
+\cite[p.~58]{ErdosGraham1980} record this question of Erd\H{o}s and Harzheim, together with the variants without monotonicity or without
+distinctness; Erd\H{o}s \cite[p.~70]{Erdos1977} discussed the analogous question for infinite sequences. Equivalently, the partial sums $0=s_0<s_1<\dots<s_k$, $s_i=a_1+\dots+a_i$, form a Sidon set whose
+consecutive differences increase and are at most $n$. We do not decide whether $f(n)=o(n)$; we prove explicit bounds on both sides.
+
+\begin{theorem}[Upper bound]\label{thm:upper}
+For every integer $n\ge0$,
+\[
+  720000\,f(n)\;\le\;354184\,n+1440000\,\isqrt n+128010240000,
+\]
+and consequently
+\[
+  f(n)\;\le\;\frac{44273}{90000}\,n+2\sqrt n+177792,\qquad \frac{44273}{90000}=\frac12-\frac{2908}{360000}=0.4919\overline{2}.
+\]
+\end{theorem}
+
+Because of its large additive constant, the right-hand side is below $n/2$ exactly for $n\ge 23202647$. The same method with a
+simpler design gives $f(n)\le\frac{797}{1620}n+2\sqrt n+7$ for all $n$ (Remark~\ref{rem:797}; it is proved in Lean, and we give only an outline); its right-hand side is below $n/2$ exactly
+for $n\ge63849$, and it is the smaller of the two bounds for every $n\le3348973255$.
+
+\begin{theorem}[Lower bound, modulus $42$]\label{thm:mod42}
+For every integer $m\ge0$ we have $f(21m^2+105m+46)\ge 12m$ (for $m=0$ the empty sequence). Consequently, for every $n\ge0$,
+\[
+  f(n)\;\ge\;\frac{12}{\sqrt{21}}\sqrt n-48,\qquad \frac{12}{\sqrt{21}}=2.618614\ldots .
+\]
+\end{theorem}
+
+\begin{theorem}[Lower bound, with one skip]\label{thm:skip}
+For every integer $j\ge500$ we have $f(12096j^2+87024j+81)\ge 360j$. Consequently
+\begin{align*}
+  f(n)&\;\ge\;\frac{15}{\sqrt{21}}\sqrt n-1800\qquad\text{for } n\ge 12096\cdot504^2=3{,}072{,}577{,}536,\\
+  f(n)&\;\ge\;\frac{15}{\sqrt{21}}\sqrt n-181440\qquad\text{for all } n\ge0,
+\end{align*}
+where $\frac{15}{\sqrt{21}}=\frac{360}{\sqrt{12096}}=3.273268\ldots$.
+\end{theorem}
+
+Here $12096=21\cdot24^2$, so that $360j/\sqrt{12096j^2}=15/\sqrt{21}$. The proofs give the slightly smaller arguments
+$21m^2+105m+34$ and $12096j^2+87024j+76$; the forms stated are the ones verified in Lean. The decimal expansions above are truncated,
+not rounded; the exact constants are the fractions and radicals.
+
+In particular
+\[
+  \liminf_{n\to\infty}\frac{f(n)}{\sqrt n}\ge\frac{15}{\sqrt{21}}\qquad\text{and}\qquad\limsup_{n\to\infty}\frac{f(n)}{n}\le\frac{44273}{90000}.
+\]
+The gap between $\sqrt n$ and $n$ is untouched: nothing in this paper bears on whether $f(n)=o(n)$.
+
+\subsection*{Formal verification}
+All statements of Theorems~\ref{thm:upper}--\ref{thm:skip}, and the variant in Remark~\ref{rem:797}, are formally verified in the Lean~4
+proof assistant \cite{Lean4} with the Mathlib library \cite{Mathlib2020}, against a definition of $f$ that is definitionally equal to the
+one in the Formal Conjectures project \cite{FormalConjectures} (Section~\ref{sec:formal}). The Lean files, the scripts that
+repeat every check, and the programs and data of Section~\ref{sec:computations} are in the accompanying repository \cite{Artifact}. The written proofs of
+Theorems~\ref{thm:upper}--\ref{thm:skip} in Sections~\ref{sec:notation}--\ref{sec:skip} are complete without the formalization;
+Remark~\ref{rem:797} is proved only in Lean. The formal proofs follow the same arguments, so they check those arguments mechanically;
+they are not independent proofs.
+
+\subsection*{How the results were obtained}
+The constructions, the proofs and their formalizations were produced by AI systems, under the direction of the author; the statement on
+AI use at the end gives the details, and Section~\ref{sec:discovery} describes how the ideas arose. We report this because it is relevant
+to how the results should be checked, and we have arranged the paper so that every step can be checked by hand.
+
+\subsection*{Organization}
+Section~\ref{sec:previous} reviews previous bounds. Section~\ref{sec:notation} fixes notation and proves two reductions.
+Section~\ref{sec:upper} proves Theorem~\ref{thm:upper}; Sections~\ref{sec:mod42} and~\ref{sec:skip} prove Theorems~\ref{thm:mod42}
+and~\ref{thm:skip}. Section~\ref{sec:formal} describes the formal verification and what it does and does not certify.
+Section~\ref{sec:computations} reports finite computations, which are not used in any proof. Section~\ref{sec:discovery} records how
+the results were found, and Section~\ref{sec:limits} discusses limitations.
+
+\section{Previous results}\label{sec:previous}
+
+Table~\ref{tab:lit} lists the bounds on $f$ known to us. Except where marked, we took the bounds from the sources as recorded in
+\cite{EP357} and its forum \cite{EP357forum}, without checking them against the original papers. For the non-monotone analogue
+$g(n)\ge f(n)$, in which the $a_i$ need not increase, Hegyv\'ari \cite{Hegyvari1986} proved $(\frac13+o(1))n\le g(n)\le(\frac23+o(1))n$
+(as recorded in \cite{EP357}, in the zbMATH review of \cite{Hegyvari1986}, and in \cite{Beker2024,Konieczny2021}); the upper bound
+applies to $f$, the lower bound does not. Coppersmith and Phillips \cite{CoppersmithPhillips1996} studied the weaker property that no term
+is the sum of a block of two or more consecutive earlier terms. A valid sequence has this property, since such a term would collide with the
+block consisting of that term alone, so their upper bound applies to $f$; they also constructed sequences with the weaker property of length
+$\frac{13}{24}n-O(1)$, so no bound below $\frac{13}{24}n$ can use that property alone (we read only the abstract of
+\cite{CoppersmithPhillips1996}).
+
+\begin{table}[ht]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}>{\raggedright}p{3.7cm}l>{\raggedright}p{3.9cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+Source & Year & Bound on $f(n)$ & Status\\
+\midrule
+Straus \cite{Straus1966}, via Weisenberg \cite{EP357forum} & 1966/2025 & $\ge(2+o(1))\sqrt n$ & published construction; observation in a forum comment\\
+Pickhardt \cite{Pickhardt2026} & 2026 & $\ge(4/\sqrt3-o(1))\sqrt n$ & web preprint, full text read\\
+This paper, Thm.~\ref{thm:mod42} & 2026 & $\ge\frac{12}{\sqrt{21}}\sqrt n-48$ & formally verified\\
+This paper, Thm.~\ref{thm:skip} & 2026 & $\ge\frac{15}{\sqrt{21}}\sqrt n-1800$ ($n\ge12096\cdot504^2$) & formally verified\\
+\midrule
+Hegyv\'ari \cite{Hegyvari1986} (via $f\le g$) & 1986 & $\le(\frac23+o(1))n$ & published; quoted from \cite{EP357} and the zbMATH review\\
+Coppersmith--Phillips \cite{CoppersmithPhillips1996}, via Weisenberg \cite{EP357forum} & 1996/2025 & $\le(\frac23-\frac1{512})n+O(\log n)$ & published result; transfer to $f$ in a forum comment\\
+Beker \cite{Beker2024}, via Tang \cite{EP357forum} & 2024/2025 & $\le(\sqrt{\tanh 1}+o(1))n$, $\sqrt{\tanh1}=0.87269\ldots$ & published result; deduction in a forum comment; weaker than the two rows above\\
+Erd\H{o}s Problem a Day \cite{EPDay2026} & 2026 & $\le \frac n2+O(\sqrt n)$ & informal report; a version of its argument is Corollary~\ref{cor:crossing}\\
+Pickhardt \cite{Pickhardt2026}; Lenthall-Cleary \cite{EP357claims} & 2026 & $\le \frac n2+O(n^{2/3})$ & web preprint; unrefereed proof claim\\
+This paper, Thm.~\ref{thm:upper} & 2026 & $\le\frac{44273}{90000}n+2\sqrt n+177792$ & formally verified\\
+\bottomrule
+\end{tabular}
+\caption{Bounds on $f(n)$ known to us on 23 October 2026.}
+\label{tab:lit}
+\end{table}
+
+The lower bound $(2+o(1))\sqrt n$ comes from a stronger property: in an admissible set in the sense of Erd\H{o}s and Straus, sums of
+different numbers of distinct elements never coincide, and the largest admissible subset of $\{1,\dots,N\}$ has $(2+o(1))\sqrt N$
+elements \cite{Straus1966,DeshouillersFreiman1995,DeshouillersFreiman1999,EP874}. A valid increasing sequence needs the property only
+for sums of \emph{consecutive} terms; the constructions of \cite{Pickhardt2026} and of this paper exploit the difference. For small
+$n$ the exact values of $f$ are known from computer searches: the least $n$ with $f(n)\ge k$ is tabulated for $k\le22$ in
+\cite{OEISA364132}, and $f(n)$ for $n\le53$ in \cite{chy4pro}.
+
+To our knowledge, Theorem~\ref{thm:upper} is the first bound of the form $f(n)\le(c+o(1))n$ with $c<\frac12$; the value $\frac12$
+was obtained informally in July 2026 \cite{EPDay2026,Pickhardt2026,EP357claims}. Also to our knowledge, the constants
+$\frac{12}{\sqrt{21}}$ and $\frac{15}{\sqrt{21}}$, the constructions of Sections~\ref{sec:mod42}--\ref{sec:skip} and the design of Section~\ref{sec:upper} have not appeared in
+the literature; the lower-bound method is Pickhardt's \cite{Pickhardt2026}, with a different pattern and an additional skip. These
+statements rest on the literature searches described in the file \path{docs/LITERATURE.md} of the repository \cite{Artifact}, which
+is not a proof of novelty. We could not
+obtain the full texts of \cite{Hegyvari1986} and \cite{CoppersmithPhillips1996}. According to \cite{EP1213}, that paper contains a theorem that integer sequences with
+bounded gaps contain two blocks of different lengths with equal sums; Lemma~\ref{lem:pattern}(b) below is the simplest instance of
+this principle, and we do not know whether \cite{Hegyvari1986} uses it to bound $f$ or $g$. Hegyv\'ari lectured on consecutive sums,
+Sidon sets and convex sequences at the CANT conference in 2026; we know only the title and abstract. We cannot exclude unpublished or
+unindexed work.
+
+\section{Notation and two reductions}\label{sec:notation}
+
+From now on sequences are indexed from $0$. For a finite sequence $a_0,\dots,a_{k-1}$ and $0\le x\le y\le k$ write
+\[
+  T(x,y)=a_x+a_{x+1}+\dots+a_{y-1}
+\]
+for the sum of the \emph{block} $[x,y)$, so $T(x,x)=0$; write $P(y)=T(0,y)$ for the partial sums, and $S(x,\ell)=T(x,x+\ell)$ for the
+sum of the block of length $\ell$ starting at $x$. The sequence is valid exactly when $T(x,y)$, for $0\le x<y\le k$, determines
+$(x,y)$. A valid strictly increasing sequence in $\{1,\dots,N\}$ is also one in $\{1,\dots,n\}$ for every $n\ge N$, so $f$ is
+nondecreasing; and a valid strictly increasing sequence in $\{1,\dots,n\}$ has at most $n$ terms, so the maximum defining $f(n)$
+exists.
+
+\begin{lemma}\label{lem:ordered}
+Let $0<a_0<a_1<\dots<a_{k-1}$ be integers. If the sequence is not valid, there are $x,\ell,y,s$ with
+\[
+  1\le s<\ell,\qquad x+\ell\le y,\qquad y+s\le k,\qquad S(x,\ell)=S(y,s),
+\]
+that is, an earlier, longer block and a later, shorter, disjoint block with the same sum.
+\end{lemma}
+
+\begin{proof}
+Take two different nonempty blocks with the same sum. Since the blocks are different, have equal sums, and all terms are positive,
+neither block contains the other. If they overlap, delete the common part from both: what remains are two nonempty disjoint blocks with
+equal sums. So we may assume the blocks are disjoint; call them $(x,\ell)$ and $(y,s)$ with $x+\ell\le y$ (and $y+s\le k$). If
+$s\ge\ell$, then $S(y,s)\ge\sum_{i<\ell}a_{y+i}>\sum_{i<\ell}a_{x+i}=S(x,\ell)$, because $a_{y+i}>a_{x+i}$; hence $s<\ell$.
+\end{proof}
+
+The formal statement of the problem (Section~\ref{sec:formal}) phrases validity as injectivity of $J\mapsto\sum_{i\in J}a_i$ on the
+finite sets $J$ of indices that are \emph{order-connected} (if $i<i'<i''$ and $i,i''\in J$ then $i'\in J$). The next lemma records that
+this is the same notion.
+
+\begin{lemma}\label{lem:formal}
+Let $a_0<\dots<a_{k-1}$ be positive integers. The map $J\mapsto\sum_{i\in J}a_i$ is injective on the order-connected subsets of
+$\{0,\dots,k-1\}$ if and only if the sequence is valid.
+\end{lemma}
+
+\begin{proof}
+The order-connected subsets are the empty set and the blocks $\{x,\dots,y-1\}$ with $0\le x<y\le k$; distinct pairs $(x,y)$ give distinct
+sets. The empty set has sum $0$, and every nonempty block has a positive sum, so the empty set never collides with a block. Hence
+injectivity on order-connected sets is injectivity of $(x,y)\mapsto T(x,y)$ on $0\le x<y\le k$.
+\end{proof}
+
+\section{The upper bound}\label{sec:upper}
+
+Throughout this section $a_0<a_1<\dots<a_{k-1}$ is a valid sequence of integers in $\{1,\dots,n\}$, and $A=\{a_0,\dots,a_{k-1}\}$.
+Since the $a_i$ are distinct positive integers, $a_i\ge i+1$ and $P(y)\ge y(y+1)/2$.
+
+\subsection{Canonical blocks and the crossing bound}
+
+\begin{lemma}[Canonical blocks]\label{lem:canon}
+Let $t$ be an integer with $0\le 2t\le n$. For $1\le y\le k$ with $P(y)>t$ let $c(y)$ be the largest $x<y$ with $T(x,y)>t$, and
+$\sigma(y)=T(c(y),y)$. Then $t<\sigma(y)\le n$, and $y\mapsto\sigma(y)$ is injective.
+\end{lemma}
+
+\begin{proof}
+Since $T(0,y)=P(y)>t$, the index $c=c(y)$ exists, and $\sigma(y)>t$ by definition. If $c=y-1$ then $\sigma(y)=a_{y-1}\le n$. Otherwise
+$c+1<y$, and the maximality of $c$ gives $T(c+1,y)\le t$; since the block $[c+1,y)$ contains $a_{y-1}>a_c$, we get $a_c<T(c+1,y)\le t$,
+so $\sigma(y)=a_c+T(c+1,y)<2t\le n$. If $\sigma(y)=\sigma(y')$, validity gives $[c(y),y)=[c(y'),y')$, so $y=y'$.
+\end{proof}
+
+\begin{corollary}[Crossing bound]\label{cor:crossing}
+For every $n\ge0$, $f(n)\le\lfloor(n+1)/2\rfloor+\isqrt n$.
+\end{corollary}
+
+\begin{proof}
+Take $t=\lfloor n/2\rfloor$. The $y\in[1,k]$ with $P(y)>t$ are mapped injectively into $(t,n]$ by Lemma~\ref{lem:canon}, so there are at
+most $n-t=\lfloor(n+1)/2\rfloor$ of them. If $P(y)\le t$ then $y^2<y(y+1)\le 2P(y)\le 2t\le n$, so $y\le\isqrt n$; hence at most $\isqrt n$
+indices $y$ have $P(y)\le t$.
+\end{proof}
+
+This is a version of the argument of \cite{EPDay2026}; we claim no credit for it. It is tight in its main term only for sets like
+$A=(n/2,n]\cap\Z$, where every block with sum at most $n$ is a single term. Any further gain must therefore come from coincidences of
+block sums larger than $n$; we use sums of order $n^2$, of runs of consecutive integers.
+
+\subsection{Lengthening a block by one term}
+
+\begin{lemma}[One step to the left]\label{lem:chain}
+Let $\theta$ be an integer with $3\theta\le 2n+4$. If $1\le x$, $x+2\le y\le k$ and $T(x,y)\le\theta$, then $T(x-1,y)\le n$.
+\end{lemma}
+
+\begin{proof}
+Put $e=a_{x-1}$ and $v=T(x,y)$. The block $[x,y)$ has at least two terms, and $a_x\ge e+1$, $a_{x+1}\ge e+2$, so $v\ge 2e+3$. Suppose
+$e+v>n$. Then $e\ge n+1-v$, so $v\ge 2(n+1-v)+3$, that is $3v\ge 2n+5$. But $3v\le3\theta\le 2n+4$, a contradiction.
+\end{proof}
+
+\begin{remark}\label{rem:chainsharp}
+The condition $3\theta\le 2n+4$ cannot be weakened to $\theta\le\lfloor(2n+6)/3\rfloor$: for $n=3m$ with $m\ge4$ and the valid sequence $m-1,m,m+2$ the
+block $\{m,m+2\}$ has sum $2m+2=\lfloor(2n+6)/3\rfloor$, and adding $m-1$ gives $3m+1>n$. We take $\theta=\lfloor(2n+4)/3\rfloor$ below,
+and this is why the holes of Proposition~\ref{prop:design} are counted only in $(n/2,2n/3]$.
+\end{remark}
+
+\begin{lemma}[{Leaving $(t,\theta]$}]\label{lem:beyond}
+Let $3\theta\le 2n+4$, and let $c+2\le y\le k$ with $T(c,y)\le\theta<P(y)$. Then there is $x'<c$ with $\theta<T(x',y)\le n$.
+\end{lemma}
+
+\begin{proof}
+Since the terms are positive, $x\mapsto T(x,y)$ is decreasing. Let $x^*$ be the least $x$ with $T(x,y)\le\theta$; then $x^*\le c$, and
+$x^*\ge1$ because $T(0,y)=P(y)>\theta$. By minimality $T(x^*-1,y)>\theta$, and Lemma~\ref{lem:chain} (with $x^*+2\le c+2\le y$) gives
+$T(x^*-1,y)\le n$. Take $x'=x^*-1<c$.
+\end{proof}
+
+\subsection{The accounting}
+
+For integers $t\le\theta$ let $H=\{z\in\Z:t<z\le\theta,\ z\notin A\}$ be the set of \emph{holes} of $A$ in $(t,\theta]$.
+
+\begin{proposition}[Accounting]\label{prop:account}
+Let $t,\theta$ be integers with $2t\le n$, $t\le\theta\le n$ and $3\theta\le 2n+4$. Then
+\[
+  k+|H|\;\le\;(n-t)+\isqrt{2\theta}.
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal Y=\{y\in[1,k]:P(y)>t\}$, and let $c$ and $\sigma$ be as in Lemma~\ref{lem:canon}; the set $\Sigma=\sigma(\mathcal Y)$ lies in $(t,n]$ and has
+$|\mathcal Y|$ elements. Split $H=H_a\cup H_b$ with $H_a=H\cap\Sigma$ and $H_b=H\setminus\Sigma$. Let
+\[
+  \mathcal Y_1=\{y\in\mathcal Y:\ \sigma(y)\le\theta,\ \sigma(y)\notin A\},\qquad \mathcal Y_2=\{y\in \mathcal Y_1:\ P(y)>\theta\},\qquad \mathcal Y_1'=\mathcal Y_1\setminus \mathcal Y_2.
+\]
+Every $z\in H_a$ is $\sigma(y)$ for exactly one $y$, and that $y$ lies in $\mathcal Y_1$; so $|H_a|\le|\mathcal Y_1|$.
+
+Let $y\in \mathcal Y_2$. The canonical block $[c(y),y)$ is not a single term, since otherwise $\sigma(y)=a_{y-1}\in A$; so $c(y)+2\le y$. As
+$T(c(y),y)=\sigma(y)\le\theta<P(y)$, Lemma~\ref{lem:beyond} gives $x'_y<c(y)$ with $\Psi(y):=T(x'_y,y)\in(\theta,n]$. By validity, $\Psi$
+is injective on $\mathcal Y_2$ (equal sums give equal blocks, hence equal right ends). Moreover $\Psi(y)\notin\Sigma$: if $\Psi(y)=\sigma(y_2)$,
+validity gives $[x'_y,y)=[c(y_2),y_2)$, so $y_2=y$ and $x'_y=c(y)$, contradicting $x'_y<c(y)$.
+
+The sets $\Sigma$, $H_b$ and $\Psi(\mathcal Y_2)$ are pairwise disjoint subsets of $(t,n]$: $H_b\subseteq(t,\theta]\subseteq(t,n]$ avoids $\Sigma$ by
+definition and avoids $\Psi(\mathcal Y_2)\subseteq(\theta,n]$, and $\Psi(\mathcal Y_2)$ avoids $\Sigma$. Hence
+\[
+  n-t\;\ge\;|\mathcal Y|+|H_b|+|\mathcal Y_2|\;=\;|\mathcal Y|+|H_b|+|\mathcal Y_1|-|\mathcal Y_1'|\;\ge\;|\mathcal Y|+|H|-|\mathcal Y_1'|.
+\]
+Finally, $[1,k]\setminus\mathcal Y$ and $\mathcal Y_1'$ are disjoint subsets of $\{y\in[1,k]:P(y)\le\theta\}$, and as in Corollary~\ref{cor:crossing} this
+set has at most $\isqrt{2\theta}$ elements. Therefore
+\[
+  k+|H|=|\mathcal Y|+|[1,k]\setminus\mathcal Y|+|H|\le(n-t)+|\mathcal Y_1'|+|[1,k]\setminus\mathcal Y|\le(n-t)+\isqrt{2\theta}.\qedhere
+\]
+\end{proof}
+
+\subsection{Runs with equal sums}
+
+For integers $\ell\ge1$ and $w\ge0$ let
+\[
+  Y_{\ell,w}=\{\ell w,\ \ell w+1,\ \dots,\ \ell w+\ell\},\qquad X_{\ell,w}=\{(\ell+1)w+1,\ \dots,\ (\ell+1)w+\ell\},
+\]
+runs of $\ell+1$ and of $\ell$ consecutive integers. Their sums are equal:
+\[
+  \textstyle\sum Y_{\ell,w}=(\ell+1)\ell w+\frac{\ell(\ell+1)}2=\sum X_{\ell,w}.
+\]
+We call the pair $(\ell,w)$ a \emph{pattern} and $Y_{\ell,w}\cup X_{\ell,w}$ its \emph{support}.
+
+\begin{lemma}\label{lem:pattern}
+\textup{(a)} If $c,c+1,\dots,c+r-1$ all lie in $A$, they are consecutive terms $a_i,\dots,a_{i+r-1}$ of the sequence.
+\textup{(b)} For no pattern $(\ell,w)$ are $Y_{\ell,w}$ and $X_{\ell,w}$ both contained in $A$.
+\textup{(c)} If $t<\ell w$ and $(\ell+1)w+\ell\le\theta$, the support of $(\ell,w)$ lies in $(t,\theta]$ and contains a hole.
+\end{lemma}
+
+\begin{proof}
+(a) If $c$ and $c+1$ lie in $A$, no term lies strictly between them, so they are consecutive terms; induct on $r$. (b) Otherwise, by (a),
+$Y_{\ell,w}$ and $X_{\ell,w}$ are blocks of lengths $\ell+1$ and $\ell$ with equal sums, contradicting validity. (c) The least element of
+the support is $\ell w>t$ and the largest is $(\ell+1)w+\ell\le\theta$; by (b) some element of the support is not in $A$.
+\end{proof}
+
+\subsection{A design with five bands}
+
+Let $j\ge2$ be an integer and consider $n'=360000j$, with
+\[
+  t=180000j=n'/2,\qquad \theta=240000j+1=\lfloor(2n'+4)/3\rfloor .
+\]
+A \emph{band} $(\ell;\alpha,\beta)$ is the set of patterns $(\ell,w)$ with $\alpha j<w\le\beta j$. We use the five bands
+\begin{gather*}
+  (4;\,45000,45687),\qquad(5;\,36550,37499),\qquad(6;\,31250,31729),\\
+  (5;\,38075,39999),\qquad(9;\,22222,23999),
+\end{gather*}
+which contain $(687+949+479+1924+1777)j=5816j$ patterns in all (the two bands with $\ell=5$ have disjoint ranges of $w$).
+
+\begin{proposition}\label{prop:design}
+Let $j\ge2$, and let $a_0<\dots<a_{k-1}$ be a valid sequence in $\{1,\dots,360000j\}$. Then the set $H$ of its holes in
+$(180000j,\,240000j+1]$ has at least $2908j$ elements.
+\end{proposition}
+
+Only the case $j\ge12$ is used below, and only that case is formalized (\texttt{design\_count}, Section~\ref{sec:formal}); for
+$2\le j\le11$ the proof that follows is a written proof only.
+
+\begin{proof}
+For a band $(\ell;\alpha,\beta)$ the sets $Y_{\ell,w}$ with $\alpha j<w\le\beta j$ lie in the \emph{$Y$-zone}
+$[\ell(\alpha j+1),\ \ell\beta j+\ell]$ and the sets $X_{\ell,w}$ in the \emph{$X$-zone} $[(\ell+1)(\alpha j+1)+1,\ (\ell+1)\beta j+\ell]$.
+For the five bands these zones are:
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+band & $Y$-zone & $X$-zone\\
+\midrule
+$(4;45000,45687)$ & $[180000j+4,\ 182748j+4]$ & $[225000j+6,\ 228435j+4]$\\
+$(5;36550,37499)$ & $[182750j+5,\ 187495j+5]$ & $[219300j+7,\ 224994j+5]$\\
+$(6;31250,31729)$ & $[187500j+6,\ 190374j+6]$ & $[218750j+8,\ 222103j+6]$\\
+$(5;38075,39999)$ & $[190375j+5,\ 199995j+5]$ & $[228450j+7,\ 239994j+5]$\\
+$(9;22222,23999)$ & $[199998j+9,\ 215991j+9]$ & $[222220j+11,\ 239990j+9]$\\
+\bottomrule
+\end{tabular}
+\end{center}
+For $j\ge2$ one checks directly:
+\begin{enumerate}
+\item every zone lies in $(t,\theta]=(180000j,\,240000j+1]$, so by Lemma~\ref{lem:pattern}(c) each of the $5816j$ patterns has a hole
+in its support (the conditions $t<\ell w$ and $(\ell+1)w+\ell\le\theta$ hold at the extreme values of $w$, hence for all $w$ in the band);
+\item the five $Y$-zones are pairwise disjoint (in the order listed, each ends before the next begins; the third ends at $190374j+6$, before
+$190375j+5$, because $j\ge2$), and all of them lie below every $X$-zone ($215991j+9<218750j+8$);
+\item no point lies in three $X$-zones. Write $5$ and $5'$ for the first and second band with $\ell=5$. Ordered by left end, the
+$X$-zones are those of $6,5,9,4,5'$, and three inequalities separate them: the zone of $6$ ends before that of $9$ begins
+($222103j+6<222220j+11$), the zone of $5$ ends before that of $4$ begins ($224994j+5<225000j+6$), and the zone of $4$ ends before that
+of $5'$ begins ($228435j+4<228450j+7$). A zone that ends before another begins also ends before every zone that begins later, so the
+only pairs of $X$-zones that can meet are $\{6,5\}$, $\{5,9\}$, $\{9,4\}$ and $\{9,5'\}$. These pairs contain no triangle, and three
+intervals on a line with a common point meet pairwise.
+\end{enumerate}
+Now fix an integer $z$ and count the patterns of the five bands whose support contains $z$. If $z\in Y_{\ell,w}$ then
+$\ell w\le z\le\ell w+\ell$, so $w\in\{\lfloor z/\ell\rfloor-1,\lfloor z/\ell\rfloor\}$: at most two patterns of a band, and by (2) only one
+band's $Y$-zone and no $X$-zone contains $z$. If $z\in X_{\ell,w}$ then $(\ell+1)w<z<(\ell+1)(w+1)$, so $w=\lfloor z/(\ell+1)\rfloor$: at most
+one pattern of a band, and by (3) at most two bands. So every $z$ lies in the supports of at most two patterns.
+
+By (1) choose for each pattern $\omega$ a hole $z_\omega\in H$ in its support. Then
+\[
+  5816j=\sum_{z\in H}\#\{\omega:z_\omega=z\}\le\sum_{z\in H}\#\{\omega: z\in\operatorname{supp}\omega\}\le2|H|.\qedhere
+\]
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:upper}}
+
+Let $a_0<\dots<a_{k-1}$ be a valid sequence in $\{1,\dots,n\}$ and $r=\isqrt n$. It suffices to show
+$720000k\le354184n+1440000r+128010240000$; dividing by $720000$ and using $r\le\sqrt n$ gives the second form, since
+$354184/720000=44273/90000$ and $128010240000/720000=177792$.
+
+\emph{Case $n<4320000$.} By Corollary~\ref{cor:crossing}, $720000k\le360000(n+1)+720000r$, and
+$360000(n+1)=354184n+5816n+360000<354184n+5816\cdot4320000+360000<354184n+128010240000$.
+
+\emph{Case $n\ge4320000$.} Let $j=\lceil n/360000\rceil\ge12$ and $n'=360000j$, so $n\le n'\le n+359999$. The sequence is valid in
+$\{1,\dots,n'\}$. With $t=180000j$ and $\theta=240000j+1$ we have $2t=n'$, $t\le\theta\le n'$ and $3\theta=2n'+3$, so
+Propositions~\ref{prop:account} and~\ref{prop:design} give
+\[
+  k\le(n'-t)-2908j+\isqrt{2\theta}=177092j+\isqrt{480000j+2}.
+\]
+Next, $480000j+2=\frac43n'+2\le\frac43(n+359999)+2<\frac43(r+1)^2+480001\le(2r+701)^2$, the last step because
+$(2r+701)^2-\frac43(r+1)^2\ge491401-\frac43$ for $r\ge0$. Hence $\isqrt{480000j+2}\le2r+700$, and
+\begin{align*}
+  720000k&\le354184\,n'+1440000r+504000000\\
+  &\le354184n+1440000r+354184\cdot359999+504000000 .
+\end{align*}
+Since $354184\cdot359999+504000000=128009885816\le128010240000$, the theorem follows. \qed
+
+\begin{remark}[A simpler design]\label{rem:797}
+The two-band design with $\ell\in\{5,9\}$, with ranges of $w$ chosen as functions of $n$ rather than of a multiple of $360000$, gives
+$1620f(n)\le797n+1620\isqrt{2\lfloor(2n+4)/3\rfloor}+8000$ for all $n$, hence $f(n)\le\frac{797}{1620}n+2\sqrt n+7$; this is formally
+verified (\texttt{f\_le\_upper2} and \texttt{f\_le\_real2}, Section~\ref{sec:formal}). We give only an outline, not a complete written
+proof. The proof is the one above with Proposition~\ref{prop:design} replaced by a count of the patterns $(5,w)$,
+$\lfloor t/5\rfloor<w\le\lfloor(\theta-5)/6\rfloor$, and $(9,w)$, $\lfloor(5\lfloor(\theta-5)/6\rfloor+5)/9\rfloor<w\le\lfloor(\theta-9)/10\rfloor$,
+where $t=\lfloor n/2\rfloor$ and $\theta=\lfloor(2n+4)/3\rfloor$; again every integer lies in the supports of at most two patterns. The formal
+proof checks the eight floor inequalities this needs, and the closing arithmetic, by linear integer arithmetic for $n\ge400$ and by
+evaluation for $12\le n<400$; for $n<12$ the bound follows from Corollary~\ref{cor:crossing}. Nothing else in the paper depends on this
+remark except the comparison of the two bounds. Since $\frac{797}{1620}-\frac{44273}{90000}=\frac{43}{810000}$ and both real forms
+have the term $2\sqrt n$, the bound of Theorem~\ref{thm:upper} is the smaller of the two exactly when $\frac{43}{810000}n>177792-7$, that is
+for $n\ge3348973256$.
+\end{remark}
+
+\begin{remark}[What limits this argument]\label{rem:upperlimits}
+Two features of the proof cap what it can give. First, the holes are counted only in $(t,\theta]$, and Remark~\ref{rem:chainsharp} shows
+that Lemma~\ref{lem:chain} fails beyond $\theta$; a two-term canonical block with sum in $(2n/3,3n/4]$ can have a left neighbour that
+makes the sum exceed $n$. Second, the hole count uses only the run pairs $(Y_{\ell,w},X_{\ell,w})$ with supports in zones of bounded
+overlap. Numerical experiments recorded in the research repository are not part of the proofs and were not re-run for this paper. In
+them, the linear-programming optimum over interval designs was $0.008105\ldots n$ holes, against $\frac{2908}{360000}n=0.00807\ldots n$
+here. That model used run pairs of lengths $p$ and $q$ with $q\le24$ and $1<p/q<4/3$, on a grid of $240$ cells. The fractional
+hitting-set optimum over all equal-sum run pairs inside $(t,\theta]$, computed only at $n=3000$, was about $30.3$ holes, that is about
+$0.0101n$. These computations are exploratory, and the second, at a single small $n$, does not give an asymptotic constant. They suggest
+that the interval accounting used here is close to its limit, but we do not claim that the method is limited to any particular
+constant.
+\end{remark}
+
+\section{The modulus-42 pattern}\label{sec:mod42}
+
+Let $(r_0,\dots,r_5)=(2,7,11,25,26,34)$ and $g_t=42\lfloor t/6\rfloor+r_{t\bmod6}$ for $t\ge0$, so that
+\[
+  (g_t)_{t\ge0}=2,7,11,25,26,34,\;44,49,53,67,68,76,\;86,\dots,\qquad g_{t+6}=g_t+42.
+\]
+The increments $g_{t+1}-g_t$ are $5,4,14,1,8,10$ periodically, so $g$ is strictly increasing. Write
+\begin{equation}\label{eq:eps}
+  r_c=7c+\varepsilon_c,\qquad (\varepsilon_0,\dots,\varepsilon_5)=(2,0,-3,4,-2,-1),\qquad \sum_c\varepsilon_c=0,
+\end{equation}
+and extend $\varepsilon$ $6$-periodically. Then $g_t=7t+\varepsilon_t$ and $-3\le\varepsilon_t\le4$. Put
+$\pi(t)=\sum_{i<t}\varepsilon_i$; $\pi$ is $6$-periodic with $(\pi(0),\dots,\pi(5))=(0,2,2,-1,3,1)$, so $-1\le\pi\le3$ and
+$\varepsilon_t=\pi(t+1)-\pi(t)$.
+
+\begin{lemma}[Residue spectra]\label{lem:spectra}
+Let $w_0,w_1,\dots$ be integers with $w_t\equiv g_t\pmod{42}$ for all $t$. If two blocks of $(w_t)$ have the same sum, their lengths are
+congruent modulo $12$.
+\end{lemma}
+
+\begin{proof}
+Let $G(t)=\sum_{i<t}r_{i\bmod6}\bmod 42$. Since $r_0+\dots+r_5=105\equiv21$, we have $G(t+12)=G(t)$, and
+\[
+  (G(0),\dots,G(11))=(0,2,9,20,3,29,21,23,30,41,24,8).
+\]
+A block sum $\sum_{t=x}^{x+\ell-1}w_t$ is congruent to $G(x+\ell)-G(x)$, which lies in the \emph{spectrum}
+$D_{\ell\bmod12}$, where $D_\lambda=\{G(x+\lambda)-G(x):0\le x<12\}\subseteq\Z/42\Z$. Direct computation gives
+\begin{center}
+\small
+\begin{tabular}{@{}cl@{\qquad}cl@{}}
+$D_0$ & $\{0\}$ & $D_6$ & $\{21\}$\\
+$D_1$ & $\{2,7,11,25,26,34\}$ & $D_7$ & $\{4,5,13,23,28,32\}$\\
+$D_2$ & $\{9,18,36\}$ & $D_8$ & $\{15,30,39\}$\\
+$D_3$ & $\{1,20\}$ & $D_9$ & $\{22,41\}$\\
+$D_4$ & $\{3,12,27\}$ & $D_{10}$ & $\{6,24,33\}$\\
+$D_5$ & $\{10,14,19,29,37,38\}$ & $D_{11}$ & $\{8,16,17,31,35,40\}$
+\end{tabular}
+\end{center}
+These twelve sets are pairwise disjoint, as one reads off the table, and their sizes add up to $1+6+3+2+3+6+1+6+3+2+3+6=42$, so they
+partition $\Z/42\Z$. Hence the residue of a block sum determines its length modulo $12$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:mod42}]
+For $m=0$ there is nothing to prove; let $m\ge1$, $k=12m$, $B=21(m^2+m+2)$ (a multiple of $42$, since $m^2+m$ is even) and
+$a_t=B+g_t$ for $0\le t<k$. The sequence is strictly increasing, $a_0=B+2\ge1$, and
+$a_{k-1}=B+42(2m-1)+34=21m^2+105m+34$.
+
+Suppose it is not valid, and take $x,\ell,y,s$ as in Lemma~\ref{lem:ordered}. By Lemma~\ref{lem:spectra} (with $w_t=a_t$, since $42\mid B$)
+we have $\ell\equiv s\pmod{12}$, so $\ell\ge s+12$. Since $g$ is increasing and nonnegative,
+\[
+  S(x,\ell)=\ell B+\sum_{t=x}^{x+\ell-1}g_t\ \ge\ \ell B+\sum_{t<\ell}g_t\ \ge\ (s+12)B+\sum_{t<s}g_t .
+\]
+On the other hand $g_{y+t}-g_t=7y+\varepsilon_{y+t}-\varepsilon_t\le7y+7$, so
+\[
+  S(y,s)=sB+\sum_{t<s}g_{y+t}\ \le\ sB+\sum_{t<s}g_t+s(7y+7).
+\]
+Equality of the two sums therefore gives $12B\le s(7y+7)\le 7s(12m+1-s)$, using $y\le k-s$. The right side is at most
+$\frac74(12m+1)^2=252m^2+42m+\frac74$, while $12B=252m^2+252m+504$. This contradiction shows the sequence is valid, so
+$f(21m^2+105m+46)\ge f(21m^2+105m+34)\ge12m$.
+
+For the bound in $n$, let $Q=\isqrt{\lfloor n/21\rfloor}$. Then $n<21(Q+1)^2$, so $\frac{12}{\sqrt{21}}\sqrt n<12(Q+1)$. If
+$Q\le2$ the claimed bound is negative. If $Q\ge3$, put $m=Q-3$; then $21m^2+105m+46\le21(m+3)^2=21Q^2\le n$, so
+$f(n)\ge12m=12(Q+1)-48>\frac{12}{\sqrt{21}}\sqrt n-48$.
+\end{proof}
+
+\begin{remark}\label{rem:score}
+Consider a periodic pattern: an offset plus $q\lfloor t/p\rfloor+r_{t\bmod p}$ for residues $r_0<\dots<r_{p-1}$ modulo $q$, and let the
+\emph{gap} $\gamma$ be the least $\gamma\ge1$ such that two blocks of lengths differing by $\gamma$ can have congruent sums modulo $q$ (for
+the pattern above, $\gamma=12$ by Lemma~\ref{lem:spectra}). Heuristically, following the plan of \cite{Pickhardt2026}, an offset of about
+$\frac{q}{4p\gamma}k^2$ suffices for the size argument when the inseparable length differences are the multiples of $\gamma$, and it
+yields the constant $2\sqrt{p\gamma/q}$. We call $p\gamma/q$ the \emph{score} of the pattern. Here $p=6$, $q=42$, $\gamma=12$ give score
+$12/7$ and constant $2\sqrt{12/7}=12/\sqrt{21}$; Pickhardt's pattern ($q=3$, $p=2$, $\gamma=2$) gives $4/\sqrt3$, and the modulus-$22$
+pattern $(2,6,9,12,18,19)$ ($p=\gamma=6$, score $18/11$) gives $12/\sqrt{22}$. For the modulus-$42$ pattern the offset of
+Theorem~\ref{thm:mod42} is close to necessary: numerically, offsets $42t$ still produce coincidences up to $0.84$, $0.94$ and $0.96$
+times $21(m^2+m+2)$ for $m=20$, $60$ and $100$.
+\end{remark}
+
+\section{The skip construction}\label{sec:skip}
+
+Fix an integer $j\ge1$ and put
+\[
+  k=360j,\qquad b=288j=\tfrac45k .
+\]
+For an integer $u\ge0$ consider
+\begin{equation}\label{eq:skip}
+  a_t=42u+g_t+84\cdot[t\ge b]\qquad(0\le t<k),
+\end{equation}
+where $[t\ge b]$ is $1$ if $t\ge b$ and $0$ otherwise. The sequence is strictly increasing and positive; adding $84=2\cdot42$ from index $b$
+on has the same effect as deleting twelve consecutive terms (two periods) of the pure pattern. Write $\nu(z)=\max(z-b,0)$ for the number
+of indices $t<z$ with $t\ge b$.
+
+\begin{lemma}[Block sums]\label{lem:window}
+For $x\ge0$, $\ell\ge0$ with $x+\ell\le k$,
+\[
+  2S(x,\ell)=84u\ell+7\ell(2x+\ell-1)+2\bigl(\pi(x+\ell)-\pi(x)\bigr)+168\bigl(\nu(x+\ell)-\nu(x)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:eps}, $a_t=42u+7t+\bigl(\pi(t+1)-\pi(t)\bigr)+84[t\ge b]$. Sum over $x\le t<x+\ell$: the second term gives
+$\frac72\ell(2x+\ell-1)$, the third telescopes, and the fourth gives $84(\nu(x+\ell)-\nu(x))$.
+\end{proof}
+
+\begin{lemma}[Phase filter]\label{lem:phase}
+Let $\xi,\eta,\lambda\in\Z/6\Z$ and
+$\Delta=\bigl(\pi(\eta+\lambda)-\pi(\eta)\bigr)-\bigl(\pi(\xi+\lambda)-\pi(\xi)\bigr)$. If $\Delta\equiv0\pmod7$ and
+$(\eta-\xi)\lambda+\Delta\equiv0\pmod6$, then $\Delta=0$.
+\end{lemma}
+
+\begin{proof}
+Since $\pi$ is $6$-periodic, it is a function on $\Z/6\Z$, so $\Delta$ is well defined. If $\lambda=0$, both differences vanish. In general
+each difference $\pi(\alpha+\lambda)-\pi(\alpha)$ lies in $[-4,4]$, so $|\Delta|\le8$ and, if $\Delta\neq0$, $\Delta=\pm7$; then one
+difference is $\pm4$ and the other $\mp3$. Since $\pi$ takes the value $-1$ only at $3$ and the value $3$ only at $4$, a difference $+4$
+occurs only for $(\alpha,\lambda)=(3,1)$ and a difference $-4$ only for $(\alpha,\lambda)=(4,5)$. For $\lambda=1$ the differences are
+$\varepsilon_\alpha$, which equals $-3$ only at $\alpha=2$; for $\lambda=5$ they are $-\varepsilon_{\alpha-1}$, which equals $3$ only at
+$\alpha=3$. This leaves four cases:
+\begin{center}
+\small
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$\Delta$ & $(\xi,\eta,\lambda)$ & $(\eta-\xi)\lambda\bmod 6$ & required, $\equiv-\Delta\pmod 6$ \\
+\midrule
+$+7$ & $(2,3,1)$ & $1$ & $5$\\
+$+7$ & $(4,3,5)$ & $1$ & $5$\\
+$-7$ & $(3,4,5)$ & $5$ & $1$\\
+$-7$ & $(3,2,1)$ & $5$ & $1$\\
+\bottomrule
+\end{tabular}
+\end{center}
+(the hypothesis requires $(\eta-\xi)\lambda\equiv-\Delta\pmod 6$). None is possible.
+\end{proof}
+
+\begin{proposition}[Reduction to a divisor equation]\label{prop:reduction}
+Let $j\ge1$ and $u\ge288j^2+12j+1$. If the sequence \eqref{eq:skip} is not valid, then there are integers $L,\delta$ with
+\[
+  14\le L\le\delta\le b-1\qquad\text{and}\qquad L\delta=72u+66+12b .
+\]
+\end{proposition}
+
+\begin{proof}
+Take $x,\ell,y,s$ as in Lemma~\ref{lem:ordered}. All of $42u$, $42\lfloor t/6\rfloor$ and $84$ vanish modulo $42$, so
+Lemma~\ref{lem:spectra} applies and $h=\ell-s$ is a positive multiple of $12$. Put $d=y-x\ge\ell$. Let
+\[
+  \Delta=\bigl(\pi(y+s)-\pi(y)\bigr)-\bigl(\pi(x+\ell)-\pi(x)\bigr)\in[-8,8],\qquad
+  c_\ell=\nu(x+\ell)-\nu(x),\quad c_s=\nu(y+s)-\nu(y),
+\]
+so $c_\ell$ and $c_s$ count the indices $\ge b$ in the two blocks. Subtracting the identities of Lemma~\ref{lem:window} for the two blocks
+and substituting $\ell=s+h$, $y=x+d$ gives
+\begin{equation}\label{eq:K}
+  84uh=7\bigl(2sd-2hx-2hs-h^2+h\bigr)+2\Delta+168(c_s-c_\ell).
+\end{equation}
+As $h\ge1$ and $x,s\ge0$, this implies
+\begin{equation}\label{eq:bound}
+  84uh\le14sd+16+168(c_s-c_\ell).
+\end{equation}
+We use $1008u\ge 1008(288j^2+12j+1)=290304j^2+12096j+1008$ and distinguish four cases. They exhaust all possibilities: if
+$x\ge b$ we are in (ii); otherwise $x<b$, and either $y\ge b$ (case (iii)) or $y<b$, and then $y+s\le b$ (case (i)) or $y+s>b$
+(case (iv)).
+
+\emph{(i) $y+s\le b$.} Then $c_s=c_\ell=0$ and $s+d=y+s-x\le b$, so $sd\le b^2/4=20736j^2$, and \eqref{eq:bound} with $h\ge12$ gives
+$1008u\le290304j^2+16$, a contradiction.
+
+\emph{(ii) $x\ge b$.} Then $c_\ell=\ell$, $c_s=s$, so $c_s-c_\ell<0$, and $s+d\le k-b=72j$; \eqref{eq:bound} gives
+$1008u\le14\cdot(36j)^2+16$, a contradiction.
+
+\emph{(iii) $x<b\le y$.} Then $c_s=s$, $c_s-c_\ell\le s$, $s\le k-y\le72j$ and $d+s\le k$. By \eqref{eq:bound},
+$1008u\le14s(k-s)+168s+16=14s(360j+12-s)+16$. The function $s\mapsto s(360j+12-s)$ is increasing for $s\le180j$, so this is at most
+$14\cdot72j\,(288j+12)+16=290304j^2+12096j+16$, a contradiction.
+
+\emph{(iv) $y<b<y+s$.} Then $c_\ell=0$ (the long block ends before $y<b$) and $c_s=y+s-b\le s-1$; in particular $s\ge2$. If $h\ge24$,
+\eqref{eq:bound} and $s+d\le k$ give $2016u\le14(180j)^2+168\cdot360j+16=453600j^2+60480j+16$, while
+$2016u\ge580608j^2+24192j+2016$; a contradiction. Hence $h=12$, and \eqref{eq:K} with $c_s-c_\ell=x+d+s-b$ simplifies to
+\begin{equation}\label{eq:E}
+  504u+462+84b=7d(s+12)+\Delta .
+\end{equation}
+Since $7\mid504,462,84$ we get $\Delta\equiv0\pmod7$; since $6\mid504,462,84$ we get $7d(s+12)+\Delta\equiv ds+\Delta\equiv0\pmod 6$.
+Here $\pi(x+\ell)=\pi(x+s)$ because $\ell=s+12$, so $\Delta$ depends only on $x$, $y$, $s$ modulo $6$, and $d\equiv y-x$. By
+Lemma~\ref{lem:phase} (with $\xi\equiv x$, $\eta\equiv y$, and the same $\lambda\equiv s$ in both differences), $\Delta=0$, and \eqref{eq:E} becomes
+$(s+12)\,d=72u+66+12b$. Take $L=s+12$ and $\delta=d$: then $L\ge14$, $\delta=d\ge\ell=L$, and $\delta=y-x\le y\le b-1$.
+\end{proof}
+
+\begin{proposition}[Counting]\label{prop:counting}
+Let $j\ge230$ and $U=[\,288j^2+12j+1,\ 288j^2+2012j\,]$, an interval of $2000j$ integers. Some $u\in U$ admits no pair $(L,\delta)$ as in
+Proposition~\ref{prop:reduction}.
+\end{proposition}
+
+Only the case $j\ge500$ is used below, and only that case is formalized (\texttt{exists\_good}); see Remark~\ref{rem:j230}.
+
+\begin{proof}
+Call $u\in U$ \emph{bad} if a pair exists, and put $M(u)=72u+66+12b=72u+66+3456j$. For $u\in U$, $P_1\le M(u)\le P_2$ with
+$P_1=20736j^2+4320j+138$ and $P_2=20736j^2+148320j+66$; note $P_2-P_1=72(2000j-1)$. Since $u\mapsto M(u)$ is injective, the number of bad
+$u$ is at most the number of pairs $(L,\delta)$ with $14\le L\le\delta\le 288j-1$ and $P_1\le L\delta\le P_2$, $L\delta\equiv66\pmod{72}$.
+
+\emph{Range of $L$.} If $L\le72j-1$ then $L\delta<(L+1)(\delta+1)\le72j\cdot288j=20736j^2<P_1$. If $L\ge144j+515$ then
+$L\delta\ge L^2\ge(144j+515)^2>P_2$. So $72j\le L\le144j+514$, i.e.\ $L=72\mu+\rho$ with $0\le\rho<72$ and $j\le\mu\le2j+7$.
+
+\emph{Count for fixed $L$.} Let $\kappa(\rho)$ be the number of residues $r$ modulo $72$ with $\rho r\equiv66\pmod{72}$. For fixed $L$
+the cofactor $\delta$ lies in one of $\kappa(L\bmod72)$ residue classes modulo $72$ and in the interval $[P_1/L,P_2/L]$, of length
+$72(2000j-1)/L$, so each class contributes at most $\lfloor(2000j-1)/L\rfloor+1$ values. Moreover
+$\sum_{\rho<72}\kappa(\rho)=\#\{(\rho,r)\in(\Z/72)^2:\rho r=66\}=8\cdot12=96$, by the Chinese remainder theorem: $\rho r\equiv2\pmod8$
+has $8$ solutions and $\rho r\equiv3\pmod 9$ has $12$.
+
+\emph{Summation.} Using $L\ge72\mu$,
+\[
+  \#\{\text{bad }u\}\le\sum_{\mu=j}^{2j+7}\sum_{\rho<72}\kappa(\rho)\Bigl(\frac{2000j}{72\mu}+1\Bigr)
+  =\frac{8000}{3}\,j\sum_{\mu=j}^{2j+7}\frac1\mu+96(j+8).
+\]
+By $\frac1{\mu}\le\log\mu-\log(\mu-1)$ for $\mu>j$ and $\log(1+x)\le x$,
+$\sum_{\mu=j}^{2j+7}\frac1\mu\le\frac1j+\log\frac{2j+7}{j}\le\log2+\frac{9}{2j}$. Hence, with $\log2<0.6931471808$,
+\[
+  \#\{\text{bad }u\}\le 12000+\tfrac{8000}{3}(\log 2)\,j+96j+768<1944.4\,j+12768<2000j
+\]
+for $j\ge230$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:skip}]
+Let $j\ge500$ and choose $u\in U$ as in Proposition~\ref{prop:counting}. By Proposition~\ref{prop:reduction} the sequence
+\eqref{eq:skip} is valid. It has $k=360j$ terms, the smallest is $a_0=42u+2\ge1$, and the largest is
+\[
+  a_{k-1}=42u+42(60j-1)+34+84\le42(288j^2+2012j)+2520j+76=12096j^2+87024j+76 .
+\]
+Hence $f(12096j^2+87024j+81)\ge360j$.
+
+For $n\ge12096\cdot504^2$ let $Q=\isqrt{\lfloor n/12096\rfloor}\ge504$ and $j=Q-4\ge500$. Then
+$12096j^2+87024j+81\le12096(j+4)^2=12096Q^2\le n$, so $f(n)\ge360j$. Also $n<12096(Q+1)^2$ and $12096=21\cdot24^2$, so
+$\frac{15}{\sqrt{21}}\sqrt n<\frac{15}{\sqrt{21}}\cdot24\sqrt{21}\,(Q+1)=360(Q+1)=360j+1800$. For $n<12096\cdot504^2$,
+$\frac{15}{\sqrt{21}}\sqrt n<360\cdot504=181440$, so the all-$n$ form is trivial there.
+\end{proof}
+
+\begin{remark}\label{rem:j230}
+The proof of Proposition~\ref{prop:counting} works for $j\ge230$; the formal proof uses $j\ge500$. Proposition~\ref{prop:reduction}
+holds for every $j\ge1$, and a finite computation (Section~\ref{sec:computations}; not formalized) shows that for every $j\le499$ the
+interval $U$ also contains an offset with no pair $(L,\delta)$. With it, $f(12096j^2+87024j+81)\ge360j$ for every $j\ge1$, and the
+argument above would give $f(n)\ge\frac{15}{\sqrt{21}}\sqrt n-1800$ for \emph{all} $n$. We do not use this, because the finite computation
+is not part of the verified development; the threshold $n\ge12096\cdot504^2$ and the constant $181440$ in Theorem~\ref{thm:skip} are
+artifacts of the formal proof.
+\end{remark}
+
+\begin{remark}[Where $15/\sqrt{21}$ comes from]\label{rem:constant}
+With $k$ and $b$ free, the four cases of Proposition~\ref{prop:reduction} need, to leading order, $u>b^2/288$ (case (i)),
+$u>(k-b)^2/288$ (case (ii)), $u>b(k-b)/72$ (case (iii), for $b\ge k/2$) and $u>k^2/576$ (case (iv) with $h\ge24$). The largest of
+these is smallest at $b=\frac45k$, where (i) and (iii) both give $u>k^2/450=288j^2$. Then the largest term is about
+$42u\approx\frac{7}{75}k^2$, and $k/\sqrt{7k^2/75}=\sqrt{75/7}=15/\sqrt{21}$. The counting step costs only a window of $O(j)$ offsets
+and so affects only lower-order terms. This is an optimization of our sufficient conditions, not a proof that the family cannot do
+better; the mirror placement $b<k/2$ was not examined. In exact computations for $j=2$ and $j=3$, coincidences not of the divisor type of
+case (iv) with $h=12$ occur for offsets up to $u=1131$ and $u=2561$, within $4$ per cent of the left ends $1177$ and $2629$ of $U$. But
+some offsets below the left end already give valid sequences (the smallest valid offsets are $u=1069$ for $j=2$ and $u=2457$ for $j=3$,
+about $0.91$ and $0.93$ times the left end), so the thresholds are not sharp, and we do not know the limit of the family.
+\end{remark}
+
+\section{Formal verification}\label{sec:formal}
+
+\subsection{What was verified}
+The formal development consists of six Lean~4 \cite{Lean4} files, which import only Mathlib \cite{Mathlib2020}:
+\begin{center}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+file & content\\
+\midrule
+\path{P0357.lean} & definitions; Lemmas~\ref{lem:ordered}, \ref{lem:spectra}; Theorem~\ref{thm:mod42}; Corollary~\ref{cor:crossing}\\
+\path{P0357Skip.lean} & Section~\ref{sec:skip}; Theorem~\ref{thm:skip}\\
+\path{P0357Upper.lean} & Lemmas~\ref{lem:formal}--\ref{lem:beyond}; Proposition~\ref{prop:account}\\
+\path{P0357Upper2.lean} & Lemma~\ref{lem:pattern}; Remark~\ref{rem:797}\\
+\path{P0357Upper4Gen.lean} & double counting over bands (the last display of the proof of Proposition~\ref{prop:design})\\
+\path{P0357Upper4.lean} & the five bands, their degree bound, Proposition~\ref{prop:design}, Theorem~\ref{thm:upper}\\
+\bottomrule
+\end{tabular}
+\end{center}
+Besides what the table lists, \path{P0357.lean} contains further results on Problem~357 that this paper does not use: the modulus-$22$
+pattern, a reformulation of validity through additive energy, density statements for infinite sequences, and examples of arithmetic
+progressions. The axiom audit covers them too. The definitions are (with mathematical symbols for the Unicode of the source)
+\begin{alltt}\small
+def HasDistinctSums \{\(\iota\) \(\alpha\) : Type*\} [Preorder \(\iota\)] [AddCommMonoid \(\alpha\)]
+    (a : \(\iota\) \(\to\) \(\alpha\)) : Prop :=
+  \{J : Finset \(\iota\) | (J : Set \(\iota\)).OrdConnected\}.InjOn (fun J \(\mapsto\) \(\sum\) x \(\in\) J, a x)
+
+noncomputable def f (n : \(\mathbb{N}\)) : \(\mathbb{N}\) :=
+  sSup \{k : \(\mathbb{N}\) | \(\exists\) a : Fin k \(\to\) \(\mathbb{Z}\),
+    Set.range a \(\subseteq\) Set.Icc 1 n \(\wedge\) StrictMono a \(\wedge\) HasDistinctSums a\}
+\end{alltt}
+The verified statements include (namespaces omitted; $\surd$ is the real square root and \texttt{n.sqrt} the integer one)
+\begin{alltt}\small
+theorem f_le_upper4 (n : \(\mathbb{N}\)) :
+    720000 * f n \(\le\) 354184 * n + 1440000 * n.sqrt + 128010240000
+theorem f_le_real4 (n : \(\mathbb{N}\)) : (f n : \(\mathbb{R}\)) \(\le\) 44273 / 90000 * n + 2 * \(\surd\)n + 177792
+theorem f_le_real2 (n : \(\mathbb{N}\)) : (f n : \(\mathbb{R}\)) \(\le\) 797 / 1620 * n + 2 * \(\surd\)n + 7
+theorem mod42_lower (m : \(\mathbb{N}\)) : 12 * m \(\le\) f (21 * m^2 + 105 * m + 46)
+theorem mod42_lower_real (n : \(\mathbb{N}\)) : 12 / \(\surd\)21 * \(\surd\)n - 48 \(\le\) (f n : \(\mathbb{R}\))
+theorem skip_lower (j : \(\mathbb{N}\)) (hj : 500 \(\le\) j) :
+    360 * j \(\le\) f (12096 * j^2 + 87024 * j + 81)
+theorem skip_lower_real_large (n : \(\mathbb{N}\)) (hn : 12096 * 504^2 \(\le\) n) :
+    15 / \(\surd\)21 * \(\surd\)n - 1800 \(\le\) (f n : \(\mathbb{R}\))
+theorem skip_lower_real (n : \(\mathbb{N}\)) : 15 / \(\surd\)21 * \(\surd\)n - 181440 \(\le\) (f n : \(\mathbb{R}\))
+\end{alltt}
+and the intermediate results \texttt{main\_count} (Proposition~\ref{prop:account}, for arbitrary $t,\theta$ with the stated hypotheses),
+\texttt{design\_count} (Proposition~\ref{prop:design}, stated there for $j\ge12$), \texttt{collision\_pair} and \texttt{distinct\_skip}
+(Proposition~\ref{prop:reduction}), \texttt{exists\_good} (Proposition~\ref{prop:counting}, for $j\ge500$) and
+\texttt{f\_le\_half\_add\_sqrt} (Corollary~\ref{cor:crossing}). The file \path{verification/Headline.lean} of the repository \cite{Artifact} prints every statement used here.
+
+\subsection{Interpretation: does the formal theorem state the problem?}
+A proof assistant checks that the proofs prove the stated theorems; it does not check that the statements mean what we intend. We
+therefore record the correspondence explicitly.
+\begin{enumerate}
+\item \emph{Same definition as the community statement.} Our \texttt{HasDistinctSums} and \texttt{f} are definitionally equal to the
+definitions in \path{FormalConjectures/ErdosProblems/357.lean} of the Formal Conjectures project \cite{FormalConjectures}, at the commit
+\texttt{d16e05a} (12 August 2026) used for the development and at the later commit \texttt{4b5e527} (15 October 2026). This is checked
+mechanically: a script copies the two upstream definitions verbatim into a separate namespace, and Lean accepts the equations
+\texttt{Erdos357.f = Upstream.f} and \texttt{Erdos357.HasDistinctSums a $\leftrightarrow$ Upstream.HasDistinctSums a} by \texttt{rfl}.
+\item \emph{Same notion as in the introduction.} By Lemma~\ref{lem:formal}, \texttt{HasDistinctSums} for a strictly increasing positive
+sequence is validity. The formal sequences are maps \texttt{Fin k $\to$ $\Z$} with values in $[1,n]$ and \texttt{StrictMono}, that is,
+$1\le a_0<\dots<a_{k-1}\le n$.
+\item \emph{The supremum is a maximum.} The supremum is taken in $\N$, where an unbounded set has supremum $0$. The set in question
+contains $0$ and is bounded by $n$, so its supremum is its maximum; the formal proofs of the lower bounds establish boundedness before
+using the supremum, and the upper bounds are proved for every element of the set, so neither direction relies on the convention.
+\item \emph{No special case.} The theorems are stated for the function $f$ itself, for all $n$ (Theorems~\ref{thm:upper}
+and~\ref{thm:mod42}) and for all $n\ge 12096\cdot504^2$ or all $n$ with the weaker constant (Theorem~\ref{thm:skip}); they are not stated
+for a restricted class of sequences. They do not address the open question, Formal Conjectures' \texttt{erdos\_357.parts.i}
+($f(n)=o(n)$), which remains unproved.
+\end{enumerate}
+
+\subsection{How it was checked}
+We rebuilt the six files in a fresh Lean project with Lean \texttt{v4.27.0} and Mathlib at commit \texttt{a3a10db} (tag
+\texttt{v4.27.0}); the build log, the exact toolchain and every check below are in the repository \cite{Artifact}, together with a script
+that repeats them.
+\begin{itemize}
+\item \emph{Axioms.} For every declaration of the six files, not only the theorems listed above, we computed the axioms on which it
+depends. All depend only on the standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}; none uses
+\texttt{sorryAx} (an unfinished proof) or \texttt{Lean.ofReduceBool} (\texttt{native\_decide}, which trusts compiled code), and the files
+declare no axioms.
+\item \emph{Kernel replay.} Every declaration was re-checked by the Lean kernel from the compiled files with \texttt{lean4checker}
+\cite{lean4checker} (tag \texttt{v4.27.0}). This re-checks the stored proof terms without trusting the elaborator, the tactics or the build
+cache. It uses the same kernel implementation as the build, so it is a check of the build, not an independent kernel.
+\item \emph{Finite case checks inside the proofs.} The spectra of Lemma~\ref{lem:spectra} are checked by a kernel-evaluated decision over
+$12^4$ cases, Lemma~\ref{lem:phase} over its $216$ cases, and the residue count $96$ of Proposition~\ref{prop:counting} by kernel
+evaluation; the harmonic estimate uses $\log x\le x-1$ and Mathlib's bound $\log2<0.6931471808$.
+\item \emph{Generated code.} The file \path{P0357Upper4.lean} (the five bands and the case split behind the degree bound of
+Proposition~\ref{prop:design}, $19$ breakpoints) was generated by a Python script from a data file listing the bands. The script is not
+trusted: Lean checks its output like any other file, and a wrong design would fail to compile. The script and data file are in the
+repository.
+\end{itemize}
+The development was written for the research repository in which the results were found, and the files are copied from it unchanged.
+That repository is not public; comments in the Lean files that name its research notes are not needed to read or check the proofs.
+Three further files of that repository about Problem~357 are not needed here and are omitted: one on side questions, one proving a
+conditional reduction, and one recording a negative result on extending Lemma~\ref{lem:chain}.
+
+\section{Finite computations}\label{sec:computations}
+
+The written proofs of Theorems~\ref{thm:upper}--\ref{thm:skip} are complete; the computations in this section are not used in them. They serve as consistency checks and as data for
+small $n$. Each item says how it was checked; ``exhaustive search'' results are computational evidence, not formal proofs.
+
+\subsection*{Checks of the proofs}
+\begin{enumerate}
+\item Every numerical claim and finite case analysis in Sections~\ref{sec:upper}--\ref{sec:skip} was re-checked with exact integer and
+rational arithmetic in a script independent of the Lean development: the zones and degree bound of Proposition~\ref{prop:design}
+(including a direct count of the patterns through every integer for $2\le j\le6$), the arithmetic of the proof of Theorem~\ref{thm:upper},
+the spectra and the $216$ cases of Lemmas~\ref{lem:spectra} and~\ref{lem:phase}, the identity of Lemma~\ref{lem:window}, the constants
+of the four cases of Proposition~\ref{prop:reduction}, the count $96$, and the union bound of Proposition~\ref{prop:counting}.
+An adversarial review recomputed them again with separately written code, and tested the lemmas of Sections~\ref{sec:notation}
+and~\ref{sec:upper} on every valid sequence in $\{1,\dots,22\}$.
+\item Theorem~\ref{thm:mod42}: all block sums of the sequence are distinct for $1\le m\le60$.
+\item Proposition~\ref{prop:reduction}, for $j=1,2,3,4$ and \emph{every} $u\in U$: all block sums were computed. Every $u$ with no pair
+$(L,\delta)$ gives a valid sequence, and every coincidence found for the other values of $u$ is of the type in case (iv): $h=12$, the short
+block contains $b$, and $(s+12)d=72u+66+12b$.
+\item For every $j\le499$ the interval $U$ contains an offset with no pair $(L,\delta)$ (the smallest proportion of such offsets is
+$0.638$, at $j=16$). This is the finite check mentioned in Remark~\ref{rem:j230}.
+\item The exact number of bad $u$ is $337{,}866$ of $10^6$ for $j=500$, against the bound $1944.4j+12768$ of
+Proposition~\ref{prop:counting}; the counting step has about a factor $3$ to spare.
+\end{enumerate}
+
+\subsection*{Exact values for small $n$}
+Let $M(k)$ be the least $n$ with $f(n)\ge k$. Exhaustive computer search gives
+\begin{align*}
+  (M(1),\dots,M(14))&=(1,2,4,5,7,10,12,13,15,18,21,24,25,29),\\
+  (M(15),\dots,M(28))&=(30,33,36,38,41,47,50,52,56,60,63,67,69,75),
+\end{align*}
+and $f(76)=f(77)=28$; together these determine $f(n)$ for every $n\le77$. The values for $k\le22$ agree with \cite{OEISA364132} and
+those for $n\le53$ with \cite{chy4pro}. Each value $M(k)$ consists of a lower bound, a valid $k$-term sequence with largest term $M(k)$,
+which anyone can check from the definition, and an upper bound, the nonexistence of such a sequence with largest term $M(k)-1$, which
+rests on the correctness of the search. The values were first obtained by two exhaustive programs with different pruning rules,
+which agree on every value; for $k\le27$ their nonexistence claims were also repeated with all pruning disabled, but the remaining ones
+($f(71)=\dots=f(74)=27$ and $f(76)=f(77)=28$) used a pruning rule based on previously computed values $M(r)$. For this paper a third
+program was written from the definition alone; the earlier programs were not consulted while it was written, and their results were
+used only for the final comparison. Its
+only pruning rules are that each term must leave room for the later ones and that each later term must differ from every block sum of
+the terms before it, and it uses no previously computed value. It reproduces $M(k)$ for every $k\le28$, the lists of all sequences
+attaining them ($67$ in all), and $f(n)$ for every $n\le77$, including the nonexistence claims above. Its pruned search agrees with a
+complete unpruned enumeration of all valid sequences in $\{1,\dots,52\}$ and with a brute force over all subsets of $\{1,\dots,34\}$.
+All of this is computational evidence. For example,
+\[
+  2,3,4,6,11,25,38,40,41,47,52,54,56,57,58,60,61,62,64,66,67,68,69,70,71,72,73,75
+\]
+is one of the two valid $28$-term sequences with largest term $75$.
+
+\subsection*{Greedy sequences}
+Greedy constructions produce valid sequences much longer than our lower bounds for every $n$ we could reach. A reverse greedy
+construction gives a valid sequence of $26813=5.99\ldots\sqrt n$ terms in $\{1,\dots,n\}$, $n=2\cdot10^7$, against $11676$ terms from
+Theorem~\ref{thm:mod42}'s construction at the same $n$. The sequence was regenerated deterministically for this paper, and two separately
+written programs confirmed that it is strictly increasing and that all $26813\cdot26814/2=359{,}481{,}891$ of its block sums are distinct. We do not know whether $f(n)/\sqrt n$ is bounded, and finite data do not decide it.
+
+\section{How the results were found}\label{sec:discovery}
+
+The work was done by AI agents, as described in the statement on AI use. We summarize what the records show, because it explains the
+shape of the constructions.
+
+\emph{Lower bounds.} Pickhardt's construction is a periodic pattern in the sense of Remark~\ref{rem:score}, with $q=3$ and $p=2$. On
+9 September 2026 an exhaustive search over all residue sets modulo $q\le22$, ranked by the score of Remark~\ref{rem:score}, found the
+modulus-$22$ pattern $(2,6,9,12,18,19)$ and a formal proof of $f(n)\ge\frac{12}{\sqrt{22}}\sqrt n-36$. On 23 October 2026 a
+branch-and-bound search for $23\le q\le60$ found patterns of score above $18/11$ only for $q=42$: four residue sets with $p=6$ and
+$\gamma=12$, namely $R$, $-R$, $R+21$ and $-R+21$ modulo $42$, where $R=\{2,7,11,25,26,34\}$; the search record also reports no pattern of
+score above $12/7$ for $61\le q\le78$. These search results are not needed for the proofs. The skip arose from a numerical experiment:
+adding a multiple of $q$ to all terms beyond some index keeps every residue, and the smallest admissible offset was smallest with the jump
+near $0.8k$. The written proof of Section~\ref{sec:skip} and its formalization came afterwards; an intermediate version used a window of
+$4j^2$ offsets and gave the constant $360/\sqrt{12264}=3.2507\ldots$.
+
+\emph{Upper bound.} The crossing argument (Corollary~\ref{cor:crossing}) was taken from \cite{EPDay2026}. The left-extension lemma and the
+accounting of Proposition~\ref{prop:account} were found first with a single family of run pairs, $\ell=6$, giving
+$f(n)\le\frac{125}{252}n+2\sqrt n+4$; replacing it by two families of degree two gave $\frac{797}{1620}$ (Remark~\ref{rem:797}). A
+linear program over band designs, rounded to the grid $360000j$, gave the five bands of Proposition~\ref{prop:design}.
+
+\section{Limitations}\label{sec:limits}
+
+\begin{itemize}
+\item The main question, whether $f(n)=o(n)$, is untouched. Our upper bound improves the leading constant from $\frac12$ to
+$\frac{44273}{90000}$, a gain of $\frac{727}{90000}=0.00807\ldots$; Remark~\ref{rem:upperlimits} explains why we expect this accounting to stop near there.
+\item The upper bound of Theorem~\ref{thm:upper} is below $n/2$ only for $n\ge23202647$, and its additive constant $177792$ is an
+artifact of rounding the design to multiples of $360000$; it was not optimized.
+\item The lower bounds are of order $\sqrt n$; finite data suggest that $f(n)$ is considerably larger, and we do not know its order of
+growth. The analysis of the one-skip family stops at $15/\sqrt{21}$ (Remark~\ref{rem:constant}); other patterns, several skips or other
+jump sizes change the case analysis and have not been explored systematically.
+\item The threshold $n\ge12096\cdot504^2$ in Theorem~\ref{thm:skip} is an artifact of the formal proof (Remark~\ref{rem:j230}).
+\item Novelty is supported only by the searches described in \path{docs/LITERATURE.md} of the repository \cite{Artifact}; we have
+not read the full texts of
+\cite{Hegyvari1986} and \cite{CoppersmithPhillips1996} (of the latter only the abstract), and no expert in the area has been consulted.
+\item The proofs have been checked by machine and by AI systems; no independent human mathematician has checked them.
+\end{itemize}
+
+\section*{Statement on the use of AI tools}
+\noindent This work was carried out with AI systems, and we describe that use in full. The research repository in which it was done was
+set up and directed by the author, who chose the problem, commissioned the runs described below and decided what to publish.
+\begin{itemize}
+\item The modulus-$22$ predecessor of Theorem~\ref{thm:mod42} was found and formally proved on 9 September 2026 by an autonomous coding
+agent (OpenAI Codex, model identifier \texttt{gpt-6-astra}).
+\item Theorem~\ref{thm:mod42}, Theorem~\ref{thm:skip}, the first two versions of the upper bound (constants $\frac{125}{252}$ and
+$\frac{797}{1620}$) and their formal proofs were produced on the night of 22--23 October 2026 by a multi-agent run of Claude models
+(Anthropic) coordinated by an AI agent; the coordinator's log records that the agents ran on Claude Sonnet~5.5, and the trailer of one
+commit names Claude Opus~5.5.
+\item Theorem~\ref{thm:upper} (the five-band design and its formal proof) was produced on 23 October 2026 by a further Claude agent in
+the same repository; its commit trailer names Claude Sonnet~5.5.
+\item The audits (independent rebuilds, axiom audits, kernel replay, independent computations, literature searches and adversarial
+reviews), the written proofs in their present form and the text of this paper were produced on 23 October 2026 with Claude (Anthropic,
+model Claude Opus~5.5).
+\end{itemize}
+The records available to us (logs, commit history and the agents' reports) attribute the mathematics and the formal proofs to these AI
+systems and record no human mathematical contribution.
+The results have not been checked by an independent human mathematician or refereed; they are supported by the formal verification of
+Section~\ref{sec:formal}. The author takes full responsibility for the content of this paper, including the accuracy of this statement, and for
+correcting or withdrawing any result that is found to be wrong.
+
+\section*{Acknowledgements}
+We thank the maintainers of the Erd\H{o}s problems database and the contributors to its forum, and the authors of the Formal Conjectures
+project, whose formal statement of Problem~357 we used.
+
+\bibliographystyle{amsplain}
+\bibliography{refs}
+
+\end{document}

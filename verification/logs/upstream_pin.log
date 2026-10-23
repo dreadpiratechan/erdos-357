@@ -1,0 +1,15 @@
+FormalConjectures_ErdosProblems_357.lean: sha256 5f398529a5081ac224ba71d9ca16bf7b884b7e4e7c6693b466103ecde75afc9f, commit d16e05aded22b8c467a0a27c14b2311f53185006, copied 2 + 4 lines into Upstream357
+FormalConjectures_ErdosProblems_357_at_4b5e5275a2.lean: sha256 ad58b5d781aa8f20e77e9713cdcaf973e3cfe35e29e68895c676a4beee0bbeba, commit 4b5e5275a2 (2026-10-15), copied 2 + 4 lines into Upstream357b
+def Upstream357.f : ℕ → ℕ :=
+fun n => sSup {k | ∃ a, Set.range a ⊆ Set.Icc 1 ↑n ∧ StrictMono a ∧ Upstream357.HasDistinctSums a}
+'pin_f_Upstream357' depends on axioms: [propext, Classical.choice, Quot.sound]
+'pin_hasDistinctSums_Upstream357' depends on axioms: [propext, Quot.sound]
+def Upstream357b.f : ℕ → ℕ :=
+fun n => sSup {k | ∃ a, Set.range a ⊆ Set.Icc 1 ↑n ∧ StrictMono a ∧ Upstream357b.HasDistinctSums a}
+'pin_f_Upstream357b' depends on axioms: [propext, Classical.choice, Quot.sound]
+'pin_hasDistinctSums_Upstream357b' depends on axioms: [propext, Quot.sound]
+
+real	0m12.202s
+user	0m0.000s
+sys	0m0.015s
+exit=0

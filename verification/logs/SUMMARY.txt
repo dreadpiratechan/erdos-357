@@ -1,0 +1,8 @@
+# summary 2026-10-23T23:28:42Z
+build:        Build completed successfully (7892 jobs). [exit=0]
+headline:     13 axiom lines, 0 error lines [exit=0]
+axioms:       TOTAL: 1023 constants (977 theorems) in 6 modules AXIOM AUDIT PASSED: every constant depends only on propext, Classical.choice, Quot.sound  [exit=0]
+upstream pin: 4 axiom lines, 0 error lines [exit=0]
+lean4checker: 6 of 6 modules exit 0
+paper checks: ALL 15 CHECKS PASSED  [exit=0]
+RESULT: PASS

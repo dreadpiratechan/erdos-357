@@ -1,0 +1,4 @@
+j=2: left end uL=1177; largest u<=uL with a non-divisor-type collision: 1131; smallest valid u: 1069 (0.9082 of uL); number of valid u in [0,uL]: 49; (uL-last)/uL = 0.0391   [49s]
+   valid u below uL (first 15): [1069, 1087, 1091, 1095, 1102, 1104, 1106, 1107, 1108, 1110, 1113, 1115, 1117, 1119, 1120]
+j=3: left end uL=2629; largest u<=uL with a non-divisor-type collision: 2561; smallest valid u: 2457 (0.9346 of uL); number of valid u in [0,uL]: 77; (uL-last)/uL = 0.0259   [179s]
+   valid u below uL (first 15): [2457, 2458, 2468, 2471, 2484, 2494, 2498, 2502, 2505, 2508, 2510, 2513, 2514, 2517, 2519]

@@ -1,0 +1,27 @@
+parsed 18 rows of the research notes (not public) Section 4 table
+self-test of the checker
+  {1,2,3,4}: naive=False A=False B=False
+  {1,2,4,8}: naive=True A=True B=True
+  3000 random sequences: naive == A == B on all (1180 admissible, 1820 not); B run with chunk=7
+  11 of 11 single-element +-1 perturbations of the n=1000 greedy set are inadmissible (A, B and naive agree on every one)
+  self-test passed
+n=     1,000  k=   115 (doc    115)  fnv=d0bf5bcee463a356 (doc d0bf5bcee463a356, tool d0bf5bcee463a356)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=     1,778  k=   156 (doc    156)  fnv=77e575aed5c8cb64 (doc 77e575aed5c8cb64, tool 77e575aed5c8cb64)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=     3,162  k=   227 (doc    227)  fnv=829e6e83a2f68409 (doc 829e6e83a2f68409, tool 829e6e83a2f68409)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=     5,623  k=   313 (doc    313)  fnv=464294faa0949d69 (doc 464294faa0949d69, tool 464294faa0949d69)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=    10,000  k=   435 (doc    435)  fnv=6729f65791456e68 (doc 6729f65791456e68, tool 6729f65791456e68)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=    17,783  k=   610 (doc    610)  fnv=af903255612a065b (doc af903255612a065b, tool af903255612a065b)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=    31,623  k=   821 (doc    821)  fnv=b06227fa30d7c41f (doc b06227fa30d7c41f, tool b06227fa30d7c41f)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=    56,234  k=  1136 (doc   1136)  fnv=f5d03266b113d1cb (doc f5d03266b113d1cb, tool f5d03266b113d1cb)  increasing/in-range=True  A(sort all)=True [0.0s]  B(chunked)=True [0.0s]  -> OK
+n=   100,000  k=  1556 (doc   1556)  fnv=cca93c9881fa0ce3 (doc cca93c9881fa0ce3, tool cca93c9881fa0ce3)  increasing/in-range=True  A(sort all)=True [0.1s]  B(chunked)=True [0.1s]  -> OK
+n=   177,828  k=  2128 (doc   2128)  fnv=b8d2ef1211d9e5c1 (doc b8d2ef1211d9e5c1, tool b8d2ef1211d9e5c1)  increasing/in-range=True  A(sort all)=True [0.1s]  B(chunked)=True [0.2s]  -> OK
+n=   316,228  k=  2914 (doc   2914)  fnv=853986e2a0e328b2 (doc 853986e2a0e328b2, tool 853986e2a0e328b2)  increasing/in-range=True  A(sort all)=True [0.3s]  B(chunked)=True [0.3s]  -> OK
+n=   562,341  k=  3993 (doc   3993)  fnv=bfe6fce42ee30c4e (doc bfe6fce42ee30c4e, tool bfe6fce42ee30c4e)  increasing/in-range=True  A(sort all)=True [0.5s]  B(chunked)=True [0.7s]  -> OK
+n= 1,000,000  k=  5424 (doc   5424)  fnv=31b66e12b2b122ae (doc 31b66e12b2b122ae, tool 31b66e12b2b122ae)  increasing/in-range=True  A(sort all)=True [1.0s]  B(chunked)=True [1.2s]  -> OK
+n= 1,778,279  k=  7401 (doc   7401)  fnv=73f873079e274567 (doc 73f873079e274567, tool 73f873079e274567)  increasing/in-range=True  A(sort all)=True [1.9s]  B(chunked)=True [2.4s]  -> OK
+n= 3,162,278  k= 10054 (doc  10054)  fnv=860c590f423ebe61 (doc 860c590f423ebe61, tool 860c590f423ebe61)  increasing/in-range=True  A(sort all)=True [3.7s]  B(chunked)=True [4.4s]  -> OK
+n= 5,623,413  k= 13673 (doc  13673)  fnv=f3400e3ff71f0df6 (doc f3400e3ff71f0df6, tool f3400e3ff71f0df6)  increasing/in-range=True  A(sort all)=True [7.3s]  B(chunked)=True [8.0s]  -> OK
+n=10,000,000  k= 18550 (doc  18550)  fnv=60dcc239a58687e8 (doc 60dcc239a58687e8, tool 60dcc239a58687e8)  increasing/in-range=True  A(sort all)=True [13.8s]  B(chunked)=True [14.7s]  -> OK
+n=20,000,000  k= 26813 (doc  26813)  fnv=4031502380f50c87 (doc 4031502380f50c87, tool 4031502380f50c87)  increasing/in-range=True  A(sort all)=True [30.3s]  B(chunked)=True [31.2s]  -> OK
+ALL 18 ROWS OK
+exit=0 wall=124s

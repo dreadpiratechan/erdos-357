@@ -1,0 +1,5 @@
+j=2: smallest u with a valid sequence = 1069, left end of U = 1177, ratio 0.9082
+j=3: smallest u with a valid sequence = 2457, left end of U = 2629, ratio 0.9346
+reverse greedy n=1000: k=115, admissible=True, k/sqrt(n)=3.637
+reverse greedy n=2000: k=168, admissible=True, k/sqrt(n)=3.757
+reverse greedy n=3000: k=223, admissible=True, k/sqrt(n)=4.071

@@ -1,0 +1,1 @@
+brute N=34 threads=6 wall=306s

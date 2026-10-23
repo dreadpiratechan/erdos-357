@@ -1,0 +1,54 @@
+free RAM before n=1000: 16.18 GB (need >= 3.0)
+rev n=1000 k=115 k/sqrt(n)=3.6366 sum=103674 table_bits=16 load=0.102 probes=16413 accepts=115 rejects=885 fnv=d0bf5bcee463a356 time=0.0s
+  wall 1000: 1 s
+free RAM before n=1778: 15.6 GB (need >= 3.0)
+rev n=1778 k=156 k/sqrt(n)=3.6996 sum=252921 table_bits=17 load=0.093 probes=31177 accepts=156 rejects=1622 fnv=77e575aed5c8cb64 time=0.0s
+  wall 1778: 0 s
+free RAM before n=3162: 15.62 GB (need >= 3.0)
+rev n=3162 k=227 k/sqrt(n)=4.0369 sum=646595 table_bits=17 load=0.197 probes=69092 accepts=227 rejects=2935 fnv=829e6e83a2f68409 time=0.0s
+  wall 3162: 0 s
+free RAM before n=5623: 16.68 GB (need >= 3.0)
+rev n=5623 k=313 k/sqrt(n)=4.1741 sum=1607233 table_bits=18 load=0.187 probes=168294 accepts=313 rejects=5310 fnv=464294faa0949d69 time=0.0s
+  wall 5623: 1 s
+free RAM before n=10000: 15.61 GB (need >= 3.0)
+rev n=10000 k=435 k/sqrt(n)=4.3500 sum=3986269 table_bits=19 load=0.181 probes=349463 accepts=435 rejects=9565 fnv=6729f65791456e68 time=0.0s
+  wall 10000: 1 s
+free RAM before n=17783: 15.4 GB (need >= 3.0)
+rev n=17783 k=610 k/sqrt(n)=4.5743 sum=9975314 table_bits=20 load=0.178 probes=756727 accepts=610 rejects=17173 fnv=af903255612a065b time=0.0s
+  wall 17783: 0 s
+free RAM before n=31623: 16.29 GB (need >= 3.0)
+rev n=31623 k=821 k/sqrt(n)=4.6168 sum=23859906 table_bits=21 load=0.161 probes=1721224 accepts=821 rejects=30802 fnv=b06227fa30d7c41f time=0.0s
+  wall 31623: 0 s
+free RAM before n=56234: 15.57 GB (need >= 3.0)
+rev n=56234 k=1136 k/sqrt(n)=4.7905 sum=59256318 table_bits=22 load=0.154 probes=3809438 accepts=1136 rejects=55098 fnv=f5d03266b113d1cb time=0.1s
+  wall 56234: 1 s
+free RAM before n=100000: 13.58 GB (need >= 3.0)
+rev n=100000 k=1556 k/sqrt(n)=4.9205 sum=144644194 table_bits=22 load=0.289 probes=8504000 accepts=1556 rejects=98444 fnv=cca93c9881fa0ce3 time=0.3s
+  wall 100000: 1 s
+free RAM before n=177828: 13.39 GB (need >= 3.0)
+rev n=177828 k=2128 k/sqrt(n)=5.0463 sum=351917930 table_bits=23 load=0.270 probes=19237403 accepts=2128 rejects=175700 fnv=b8d2ef1211d9e5c1 time=0.6s
+  wall 177828: 1 s
+free RAM before n=316228: 16.6 GB (need >= 3.0)
+rev n=316228 k=2914 k/sqrt(n)=5.1819 sum=862420770 table_bits=24 load=0.253 probes=42727561 accepts=2914 rejects=313314 fnv=853986e2a0e328b2 time=1.2s
+  wall 316228: 2 s
+free RAM before n=562341: 15.67 GB (need >= 3.0)
+rev n=562341 k=3993 k/sqrt(n)=5.3248 sum=2103445995 table_bits=25 load=0.238 probes=94920956 accepts=3993 rejects=558348 fnv=bfe6fce42ee30c4e time=2.5s
+  wall 562341: 3 s
+free RAM before n=1000000: 16.06 GB (need >= 3.0)
+rev n=1000000 k=5424 k/sqrt(n)=5.4240 sum=5097429480 table_bits=26 load=0.219 probes=221636911 accepts=5424 rejects=994576 fnv=31b66e12b2b122ae time=6.6s
+  wall 1000000: 7 s
+free RAM before n=1778279: 15.95 GB (need >= 3.0)
+rev n=1778279 k=7401 k/sqrt(n)=5.5500 sum=12373571580 table_bits=27 load=0.204 probes=504848571 accepts=7401 rejects=1770878 fnv=73f873079e274567 time=16.1s
+  wall 1778279: 16 s
+free RAM before n=3162278: 16.16 GB (need >= 3.0)
+rev n=3162278 k=10054 k/sqrt(n)=5.6538 sum=30035307286 table_bits=27 load=0.377 probes=1157120065 accepts=10054 rejects=3152224 fnv=860c590f423ebe61 time=34.0s
+  wall 3162278: 34 s
+free RAM before n=5623413: 16.23 GB (need >= 6.0)
+rev n=5623413 k=13673 k/sqrt(n)=5.7659 sum=72755566167 table_bits=28 load=0.348 probes=2628270752 accepts=13673 rejects=5609740 fnv=f3400e3ff71f0df6 time=84.5s
+  wall 5623413: 85 s
+free RAM before n=10000000: 16.48 GB (need >= 6.0)
+rev n=10000000 k=18550 k/sqrt(n)=5.8660 sum=175838472654 table_bits=29 load=0.320 probes=6113045312 accepts=18550 rejects=9981450 fnv=60dcc239a58687e8 time=260.2s
+  wall 10000000: 260 s
+free RAM before n=20000000: 17.12 GB (need >= 6.0)
+rev n=20000000 k=26813 k/sqrt(n)=5.9956 sum=510388004266 table_bits=30 load=0.335 probes=16772839100 accepts=26813 rejects=19973187 fnv=4031502380f50c87 time=955.3s
+  wall 20000000: 956 s

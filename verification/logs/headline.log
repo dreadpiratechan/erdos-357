@@ -1,0 +1,189 @@
+def Erdos357.HasDistinctSums.{u_1, u_2} : {ι : Type u_1} →
+  {α : Type u_2} → [Preorder ι] → [AddCommMonoid α] → (ι → α) → Prop :=
+fun {ι} {α} [Preorder ι] [AddCommMonoid α] a => Set.InjOn (fun J => ∑ x ∈ J, a x) {J | (↑J).OrdConnected}
+def Erdos357.f : ℕ → ℕ :=
+fun n => sSup {k | ∃ a, Set.range a ⊆ Set.Icc 1 ↑n ∧ StrictMono a ∧ Erdos357.HasDistinctSums a}
+Erdos357Upper.f_le_upper4 : ∀ (n : ℕ), 720000 * Erdos357.f n ≤ 354184 * n + 1440000 * n.sqrt + 128010240000
+Erdos357Upper.f_le_real4 : ∀ (n : ℕ), ↑(Erdos357.f n) ≤ 44273 / 90000 * ↑n + 2 * √↑n + 177792
+Erdos357Upper.f_le_upper2 : ∀ (n : ℕ), 1620 * Erdos357.f n ≤ 797 * n + 1620 * (2 * ((2 * n + 4) / 3)).sqrt + 8000
+Erdos357Upper.f_le_real2 : ∀ (n : ℕ), ↑(Erdos357.f n) ≤ 797 / 1620 * ↑n + 2 * √↑n + 7
+Erdos357Upper.f_le_upper : ∀ (n : ℕ), 252 * Erdos357.f n ≤ 125 * n + 252 * (2 * ((2 * n + 4) / 3)).sqrt + 258
+Erdos357Upper.f_le_real : ∀ (n : ℕ), ↑(Erdos357.f n) ≤ 125 / 252 * ↑n + 2 * √↑n + 4
+Erdos357.f_le_half_add_sqrt : ∀ (n : ℕ), Erdos357.f n ≤ (n + 1) / 2 + n.sqrt
+def Erdos357Upper.blk : (ℕ → ℕ) → ℕ → ℕ → ℕ :=
+fun a x y => ∑ i ∈ Finset.Ico x y, a i
+structure Erdos357Upper.Adm (a : ℕ → ℕ) (k n : ℕ) : Prop
+number of parameters: 3
+fields:
+  Erdos357Upper.Adm.pos : ∀ i < k, 0 < a i
+  Erdos357Upper.Adm.mono : ∀ (i j : ℕ), i < j → j < k → a i < a j
+  Erdos357Upper.Adm.le : ∀ i < k, a i ≤ n
+  Erdos357Upper.Adm.inj : ∀ (x y x' y' : ℕ),
+      x < y → x' < y' → y ≤ k → y' ≤ k → Erdos357Upper.blk a x y = Erdos357Upper.blk a x' y' → x = x' ∧ y = y'
+constructor:
+  Erdos357Upper.Adm.mk {a : ℕ → ℕ} {k n : ℕ} (pos : ∀ i < k, 0 < a i) (mono : ∀ (i j : ℕ), i < j → j < k → a i < a j)
+    (le : ∀ i < k, a i ≤ n)
+    (inj :
+      ∀ (x y x' y' : ℕ),
+        x < y → x' < y' → y ≤ k → y' ≤ k → Erdos357Upper.blk a x y = Erdos357Upper.blk a x' y' → x = x' ∧ y = y') :
+    Erdos357Upper.Adm a k n
+def Erdos357Upper.canon : (ℕ → ℕ) → ℕ → ℕ → ℕ :=
+fun a t y => Nat.findGreatest (fun x => t < Erdos357Upper.blk a x y) (y - 1)
+def Erdos357Upper.holes : (ℕ → ℕ) → ℕ → ℕ → ℕ → Finset ℕ :=
+fun a k t θ => {z ∈ Finset.Ioc t θ | z ∉ Finset.image a (Finset.range k)}
+def Erdos357Upper.Hit : ℕ → ℕ → ℕ → Prop :=
+fun l w z => l * w ≤ z ∧ z ≤ l * w + l ∨ (l + 1) * w + 1 ≤ z ∧ z ≤ (l + 1) * w + l
+def Erdos357Upper.cnt : ℕ → ℕ → ℕ → ℕ → ℕ :=
+fun l α β z => {w ∈ Finset.Ioc α β | Erdos357Upper.Hit l w z}.card
+def Erdos357Upper.bandsL : ℕ → List (ℕ × ℕ × ℕ) :=
+fun j =>
+  [(4, 45000 * j, 45687 * j), (5, 36550 * j, 37499 * j), (6, 31250 * j, 31729 * j), (5, 38075 * j, 39999 * j),
+    (9, 22222 * j, 23999 * j)]
+@Erdos357Upper.adm_of_int : ∀ {k n : ℕ} (a : Fin k → ℤ),
+  Set.range a ⊆ Set.Icc 1 ↑n → StrictMono a → Erdos357.HasDistinctSums a → ∃ b, Erdos357Upper.Adm b k n
+Erdos357Upper.canon_spec : ∀ (a : ℕ → ℕ) (t : ℕ) {y : ℕ},
+  t < Erdos357Upper.blk a 0 y → t < Erdos357Upper.blk a (Erdos357Upper.canon a t y) y
+@Erdos357Upper.canon_le_n : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {t y : ℕ}, 2 * t ≤ n → 1 ≤ y → y ≤ k → Erdos357Upper.blk a (Erdos357Upper.canon a t y) y ≤ n
+@Erdos357Upper.chain : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {θ : ℕ},
+      3 * θ ≤ 2 * n + 4 →
+        ∀ {x y : ℕ}, x + 2 ≤ y → y ≤ k → 1 ≤ x → Erdos357Upper.blk a x y ≤ θ → Erdos357Upper.blk a (x - 1) y ≤ n
+@Erdos357Upper.exists_beyond : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {θ : ℕ},
+      3 * θ ≤ 2 * n + 4 →
+        ∀ {y c : ℕ},
+          y ≤ k →
+            c + 2 ≤ y →
+              Erdos357Upper.blk a c y ≤ θ →
+                θ < Erdos357Upper.blk a 0 y → ∃ x' < c, θ < Erdos357Upper.blk a x' y ∧ Erdos357Upper.blk a x' y ≤ n
+@Erdos357Upper.main_count : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {t θ : ℕ},
+      2 * t ≤ n → t ≤ θ → 3 * θ ≤ 2 * n + 4 → θ ≤ n → k + (Erdos357Upper.holes a k t θ).card ≤ n - t + (2 * θ).sqrt
+@Erdos357Upper.consecutive_run : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ (c l : ℕ), 1 ≤ l → (∀ j < l, ∃ i < k, a i = c + j) → ∃ i, i + l ≤ k ∧ ∀ j < l, a (i + j) = c + j
+@Erdos357Upper.pattern_false_gen : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ (l w : ℕ), 1 ≤ l → (∀ j < l + 1, ∃ i < k, a i = l * w + j) → (∀ j < l, ∃ i < k, a i = (l + 1) * w + 1 + j) → False
+@Erdos357Upper.pattern_hit : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {t θ l w : ℕ},
+      1 ≤ l → t < l * w → (l + 1) * w + l ≤ θ → ∃ z ∈ Erdos357Upper.holes a k t θ, Erdos357Upper.Hit l w z
+@Erdos357Upper.band_count : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {t θ l α β : ℕ},
+      1 ≤ l →
+        t < l * (α + 1) → (l + 1) * β + l ≤ θ → β - α ≤ ∑ z ∈ Erdos357Upper.holes a k t θ, Erdos357Upper.cnt l α β z
+@Erdos357Upper.list_count : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    ∀ {t θ D : ℕ} (L : List (ℕ × ℕ × ℕ)),
+      (∀ p ∈ L, 1 ≤ p.1 ∧ t < p.1 * (p.2.1 + 1) ∧ (p.1 + 1) * p.2.2 + p.1 ≤ θ) →
+        (∀ (z : ℕ), (List.map (fun p => Erdos357Upper.cnt p.1 p.2.1 p.2.2 z) L).sum ≤ D) →
+          (List.map (fun p => p.2.2 - p.2.1) L).sum ≤ D * (Erdos357Upper.holes a k t θ).card
+Erdos357Upper.bandsL_ok : ∀ (j : ℕ),
+  12 ≤ j →
+    ∀ p ∈ Erdos357Upper.bandsL j, 1 ≤ p.1 ∧ 180000 * j < p.1 * (p.2.1 + 1) ∧ (p.1 + 1) * p.2.2 + p.1 ≤ 240000 * j + 1
+Erdos357Upper.bandsL_fib : ∀ (j : ℕ),
+  12 ≤ j → ∀ (z : ℕ), (List.map (fun p => Erdos357Upper.cnt p.1 p.2.1 p.2.2 z) (Erdos357Upper.bandsL j)).sum ≤ 2
+@Erdos357Upper.design_count : ∀ {a : ℕ → ℕ} {k j : ℕ},
+  Erdos357Upper.Adm a k (360000 * j) →
+    12 ≤ j → 5816 * j ≤ 2 * (Erdos357Upper.holes a k (180000 * j) (240000 * j + 1)).card
+@Erdos357Upper.adm_bound4 : ∀ {a : ℕ → ℕ} {k n : ℕ},
+  Erdos357Upper.Adm a k n →
+    4320000 ≤ n → 720000 * k ≤ 354184 * (n + 360000) + 720000 * (2 * (240000 * ((n + 359999) / 360000) + 1)).sqrt
+Erdos357.Skip.skip_lower : ∀ (j : ℕ), 500 ≤ j → 360 * j ≤ Erdos357.f (12096 * j ^ 2 + 87024 * j + 81)
+Erdos357.Skip.skip_lower_all : ∀ (n : ℕ), 12096 * 504 ^ 2 ≤ n → 360 * ((n / 12096).sqrt - 4) ≤ Erdos357.f n
+Erdos357.Skip.skip_lower_real_large : ∀ (n : ℕ), 12096 * 504 ^ 2 ≤ n → 15 / √21 * √↑n - 1800 ≤ ↑(Erdos357.f n)
+Erdos357.Skip.skip_lower_real : ∀ (n : ℕ), 15 / √21 * √↑n - 181440 ≤ ↑(Erdos357.f n)
+def Erdos357.Skip.sk : ℕ → ℕ → ℕ → ℕ :=
+fun u b t => 42 * u + 42 * (t / 6) + Erdos357.Mod42.residue (Erdos357.Mod42.phase t) + if b ≤ t then 84 else 0
+Erdos357.Skip.skip_admissible : ∀ (j : ℕ),
+  500 ≤ j → ∃ a, Set.range a ⊆ Set.Icc 1 ↑(12096 * j ^ 2 + 87024 * j + 81) ∧ StrictMono a ∧ Erdos357.HasDistinctSums a
+Erdos357.Skip.distinct_skip : ∀ (j u b : ℕ),
+  1 ≤ j →
+    b = 288 * j →
+      288 * j ^ 2 + 12 * j + 1 ≤ u →
+        (¬∃ L δ, 14 ≤ L ∧ L ≤ δ ∧ δ + 1 ≤ b ∧ L * δ = 72 * u + 66 + 12 * b) →
+          Erdos357.HasDistinctSums fun i => Erdos357.Skip.sk u b ↑i
+Erdos357.Skip.collision_pair : ∀ (j u x L y s b : ℕ),
+  1 ≤ j →
+    b = 288 * j →
+      288 * j ^ 2 + 12 * j + 1 ≤ u →
+        0 < s →
+          s < L →
+            x + L ≤ y →
+              y + s ≤ 360 * j →
+                ∑ t ∈ Finset.range L, Erdos357.Skip.sk u b (x + t) =
+                    ∑ t ∈ Finset.range s, Erdos357.Skip.sk u b (y + t) →
+                  ∃ L' δ, 14 ≤ L' ∧ L' ≤ δ ∧ δ + 1 ≤ b ∧ L' * δ = 72 * u + 66 + 12 * b
+Erdos357.Skip.phase_filter : ∀ (ξ η l : ℕ),
+  ξ < 6 →
+    η < 6 →
+      l < 6 →
+        (Erdos357.Skip.pe6 ((η + l) % 6) - Erdos357.Skip.pe6 η -
+                (Erdos357.Skip.pe6 ((ξ + l) % 6) - Erdos357.Skip.pe6 ξ)) %
+              7 =
+            0 →
+          7 * ((↑η - ↑ξ) * (↑l + 12)) +
+                ↑(Erdos357.Skip.pe6 ((η + l) % 6) - Erdos357.Skip.pe6 η -
+                    (Erdos357.Skip.pe6 ((ξ + l) % 6) - Erdos357.Skip.pe6 ξ)) =
+              0 →
+            Erdos357.Skip.pe6 ((η + l) % 6) - Erdos357.Skip.pe6 η -
+                (Erdos357.Skip.pe6 ((ξ + l) % 6) - Erdos357.Skip.pe6 ξ) =
+              0
+Erdos357.Skip.nres_sum : ∑ ρ ∈ Finset.range 72, Erdos357.Skip.nres ρ = 96
+Erdos357.Skip.harm_le : ∀ (j N : ℕ), 1 ≤ j → j ≤ N → ∑ q ∈ Finset.Icc j N, 1 / ↑q ≤ 1 / ↑j + Real.log ↑N - Real.log ↑j
+Erdos357.Skip.exists_good : ∀ (j : ℕ),
+  500 ≤ j →
+    ∃ u,
+      288 * j ^ 2 + 12 * j + 1 ≤ u ∧
+        u ≤ 288 * j ^ 2 + 2012 * j ∧ ¬∃ L δ, 14 ≤ L ∧ L ≤ δ ∧ δ + 1 ≤ 288 * j ∧ L * δ = 72 * u + 66 + 12 * (288 * j)
+Erdos357.mod42_lower : ∀ (m : ℕ), 12 * m ≤ Erdos357.f (21 * m ^ 2 + 105 * m + 46)
+Erdos357.mod42_lower_all : ∀ (n : ℕ), 12 * ((n / 21).sqrt - 3) ≤ Erdos357.f n
+Erdos357.mod42_lower_real : ∀ (n : ℕ), 12 / √21 * √↑n - 48 ≤ ↑(Erdos357.f n)
+Erdos357.Mod42.int_admissible : ∀ (m : ℕ),
+  ∃ b, Set.range b ⊆ Set.Icc 1 ↑(21 * m ^ 2 + 105 * m + 46) ∧ StrictMono b ∧ Erdos357.HasDistinctSums b
+Erdos357.Mod42.length_certificate : ∀ (i j u v : Fin 12),
+  Erdos357.Mod42.pref j - Erdos357.Mod42.pref i = Erdos357.Mod42.pref v - Erdos357.Mod42.pref u →
+    (↑j + 12 - ↑i) % 12 = (↑v + 12 - ↑u) % 12
+Erdos357.Mod42.block_length_eq : ∀ (m i l j r : ℕ),
+  i + l ≤ 12 * m →
+    j + r ≤ 12 * m →
+      ∑ t ∈ Finset.range l, Erdos357.Mod42.a m (i + t) = ∑ t ∈ Finset.range r, Erdos357.Mod42.a m (j + t) → l = r
+Erdos357.mod22_lower_real : ∀ (n : ℕ), 12 / √22 * √↑n - 36 ≤ ↑(Erdos357.f n)
+Erdos357.hasDistinctSums_iff_no_ordered_collision : ∀ (a : ℕ → ℕ) (k : ℕ),
+  (∀ (i : ℕ), 0 < a i) →
+    StrictMono a →
+      ((Erdos357.HasDistinctSums fun i => a ↑i) ↔
+        ∀ (i l j r : ℕ),
+          0 < r → r < l → i + l ≤ j → j + r ≤ k → ∑ t ∈ Finset.range l, a (i + t) ≠ ∑ t ∈ Finset.range r, a (j + t))
+Erdos357.infinite_set_lower_density : ∀ (a : ℕ → ℕ),
+  StrictMono a →
+    Erdos357.HasDistinctSums a →
+      Filter.liminf (fun b => ↑(Set.range a ∩ Set.univ ∩ Set.Iio b).ncard / ↑(Set.univ ∩ Set.Iio b).ncard)
+          Filter.atTop =
+        0
+Erdos357.jitter42_lower : 42 ≤ Erdos357.f 243
+'Erdos357Upper.f_le_upper4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357Upper.f_le_real4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357Upper.f_le_real2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357Upper.f_le_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.f_le_half_add_sqrt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.Skip.skip_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.Skip.skip_lower_real_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.Skip.skip_lower_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.mod42_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.mod42_lower_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.mod22_lower_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.infinite_set_lower_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos357.jitter42_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+real	0m17.293s
+user	0m0.000s
+sys	0m0.000s
+exit=0

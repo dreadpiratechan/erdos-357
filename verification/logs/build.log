@@ -1,0 +1,13 @@
+✔ [7885/7892] Built Erdos.Proofs.P0357 (26s)
+✔ [7886/7892] Built Erdos.Proofs.P0357Upper (16s)
+✔ [7887/7892] Built Erdos.Proofs.P0357Skip (16s)
+✔ [7888/7892] Built Erdos.Proofs.P0357Upper2 (9.9s)
+✔ [7889/7892] Built Erdos.Proofs.P0357Upper4Gen (8.5s)
+✔ [7890/7892] Built Erdos.Proofs.P0357Upper4 (11s)
+✔ [7891/7892] Built Erdos357 (6.6s)
+Build completed successfully (7892 jobs).
+
+real	1m22.978s
+user	0m0.000s
+sys	0m0.015s
+exit=0

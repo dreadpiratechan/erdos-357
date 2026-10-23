@@ -1,0 +1,21 @@
+PASS  rho(r) = 7r + eps(r), sum eps = 0, pe table, increments of the pattern
+PASS  mod-42 spectra D_0..D_11 partition Z/42 (equal window sums force lengths = mod 12)
+PASS  mod-42 size argument: 12B > 7(12m+1)^2/4 for B = 21(m^2+m+2); max term 21m^2+105m+34
+PASS  mod-42 construction is admissible (brute force, m = 1..12)
+PASS  window-sum formula (W) for the skip sequence
+PASS  phase filter: 7 | dE and 6 | 7 d (s+12) + dE force dE = 0 (all 216 phase triples)
+PASS  sum over rho mod 72 of #{r : rho r = 66 mod 72} is 96 (= 8 * 12)
+PASS  skip case analysis constants (A)-(D) and the window W
+PASS  union bound: |Bad| <= (8000/3) j (ln2 + 4.5/j) + 96 (j + 8) < 2000 j exactly for j >= 230
+PASS  Theorem 1.3 arithmetic: N(j) <= 12096 (j+4)^2, 12096 = 24^2 * 21, 360/sqrt 12096 = 15/sqrt 21
+PASS  band data: 5816 patterns per j; 44273/90000 = 1/2 - 5816/720000
+PASS  band zones: Y-zones disjoint, Y below all X, at most two X-zones meet; inside (t, theta] (j >= 2)
+PASS  band degree <= 2 by exact integer count of patterns through every z (j = 2..6)
+PASS  Theorem 1.1 arithmetic: k <= 177092 j + isqrt(480000 j + 2) <= (44273/90000) n + 2 sqrt n + 177792
+PASS  thresholds quoted in the paper (exact)
+ALL 15 CHECKS PASSED
+
+real	0m0.557s
+user	0m0.000s
+sys	0m0.015s
+exit=0

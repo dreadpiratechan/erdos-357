@@ -1,0 +1,37 @@
+table: <research-repo>\problems\0357\exact_f_table.txt
+Section f rows: 77 (n = 1..77);  Section M blocks: 28
+  OK  k= 1 M=  1  sets listed= 1  count field=1
+  OK  k= 2 M=  2  sets listed= 1  count field=1
+  OK  k= 3 M=  4  sets listed= 2  count field=2
+  OK  k= 4 M=  5  sets listed= 1  count field=1
+  OK  k= 5 M=  7  sets listed= 1  count field=1
+  OK  k= 6 M= 10  sets listed= 7  count field=7
+  OK  k= 7 M= 12  sets listed= 5  count field=5
+  OK  k= 8 M= 13  sets listed= 1  count field=1
+  OK  k= 9 M= 15  sets listed= 1  count field=1
+  OK  k=10 M= 18  sets listed= 2  count field=2
+  OK  k=11 M= 21  sets listed= 1  count field=1
+  OK  k=12 M= 24  sets listed=13  count field=13
+  OK  k=13 M= 25  sets listed= 1  count field=1
+  OK  k=14 M= 29  sets listed= 5  count field=5
+  OK  k=15 M= 30  sets listed= 1  count field=1
+  OK  k=16 M= 33  sets listed= 1  count field=1
+  OK  k=17 M= 36  sets listed= 1  count field=1
+  OK  k=18 M= 38  sets listed= 1  count field=1
+  OK  k=19 M= 41  sets listed= 1  count field=1
+  OK  k=20 M= 47  sets listed= 3  count field=3
+  OK  k=21 M= 50  sets listed= 5  count field=5
+  OK  k=22 M= 52  sets listed= 1  count field=1
+  OK  k=23 M= 56  sets listed= 2  count field=2
+  OK  k=24 M= 60  sets listed= 2  count field=2
+  OK  k=25 M= 63  sets listed= 2  count field=2
+  OK  k=26 M= 67  sets listed= 2  count field=2
+  OK  k=27 M= 69  sets listed= 1  count field=1
+  OK  k=28 M= 75  sets listed= 2  count field=2
+Section f vs M: 77 rows checked, 0 inconsistencies
+OEIS A364132 cached terms: 22; compared with M(1..22); mismatches: []
+M(k): [1, 2, 4, 5, 7, 10, 12, 13, 15, 18, 21, 24, 25, 29, 30, 33, 36, 38, 41, 47, 50, 52, 56, 60, 63, 67, 69, 75]
+optimal set counts: [1, 1, 2, 1, 1, 7, 5, 1, 1, 2, 1, 13, 1, 5, 1, 1, 1, 1, 1, 3, 5, 1, 2, 2, 2, 2, 1, 2] total 67
+M(k) equals the 28 claimed values: True
+counts equal the 28 claimed counts (total 67): True
+RESULT: ALL CHECKS PASSED

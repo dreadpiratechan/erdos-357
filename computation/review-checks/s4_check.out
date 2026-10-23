@@ -1,0 +1,47 @@
+PASS band sizes 687,949,479,1924,1777 sum to 5816
+PASS 44273/90000 = 1/2 - 2908/360000 = 1/2 - 5816/720000
+PASS 354184/720000 = 44273/90000 and 128010240000/720000 = 177792
+PASS zone table in the manuscript agrees with the definition (j in 1,2,3,7,12,1000,1e6)
+PASS zones inside (t,theta] for all j>=1 tested
+PASS Y-zones disjoint and below X-zones for all j>=2 tested
+     (for j=1 Y-zone disjointness holds? -> False ; the manuscript only claims j>=2)
+PASS max X-zone overlap <= 2 for all j tested (incl. j=1)
+     X-zone overlap edges at j=2: [('4', '9'), ('5', '6'), ('5', '9'), ("5'", '9')]
+PASS overlap edges are exactly {6,5},{5,9},{9,4},{9,5'}
+PASS X zones ordered by left end: 6,5,9,4,5'  ['6', '5', '9', '4', "5'"]
+PASS the three separating inequalities of the manuscript
+PASS direct incidence count j=2: #patterns=11632=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=3: #patterns=17448=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=4: #patterns=23264=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=5: #patterns=29080=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=6: #patterns=34896=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=12: #patterns=69792=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=13: #patterns=75608=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=17: #patterns=98872=5816j, max degree=2<=2, supports inside (t,theta]
+PASS direct incidence count j=30: #patterns=174480=5816j, max degree=2<=2, supports inside (t,theta]
+PASS sum identity for pattern (4,45001)
+PASS sum identity for pattern (5,36551)
+PASS sum identity for pattern (6,31251)
+PASS sum identity for pattern (9,22223)
+PASS sum identity for pattern (5,38076)
+PASS sum identity for pattern (9,23999)
+PASS Theorem 1.1, case n>=4320000, spot check of every inequality for 3000 consecutive n + extras  []
+PASS (2r+701)^2 - 4/3 (r+1)^2 >= 491401 - 4/3 and 480001 <= that
+PASS 480000j+2 < (2r+701)^2 at n=r^2 for r in 2078..3000
+PASS 354184*359999 + 504000000 = 128009885816 <= 128010240000
+PASS Case n<4320000: 5816*4320000+360000 < 128010240000  25125480000
+PASS n<4320000: 360000(n+1) + 720000 r <= RHS for sampled n
+PASS n=0 : f(0)=0 trivial
+PASS Thm 1.1 real form < n/2 first at n = 23202647  23202647
+PASS   ... and fails at n-1; holds on a long window above
+PASS   ... fails for all n < threshold (grid)
+PASS 797/1620 form < n/2 first at n = 63849  63849
+PASS   ... fails at n-1 and for grid below
+PASS 797/1620 - 44273/90000 = 43/810000
+PASS crossover: Thm1.1 bound smaller than 797 bound exactly for n >= 3348973256  3348973256
+PASS 0.4919 2-bar: 44273/90000 = 0.491922...
+PASS 1/2 - 44273/90000 = 727/90000 = 0.0080778
+     Remark 4.4 example (m-1,m,m+2) is NOT valid for m in [3] (m=3: 2+3=5 collides)
+PASS Remark 4.4: example valid and sharp for every 2<=m<200 except m=3
+
+ALL PASS

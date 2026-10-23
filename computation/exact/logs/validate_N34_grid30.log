@@ -1,0 +1,9 @@
+brute force file results/brute_N34.txt: N=34, 310 nonzero (k,last) cells, 13286737 admissible non-empty subsets
+# exact raw: all admissible subsets of 1..34 (13286738 tree nodes, 0.10s)
+[1] raw (no pruning) histogram == brute-force histogram over all subsets of 1..34: True   (13286737 sets in both)
+[2] grid --prune 1: count(k,n) for all 1<=k<=n<=30: 465 cells (249 nonzero), mismatches vs brute force: []  -> PASS
+[2] grid --prune 2: count(k,n) for all 1<=k<=n<=30: 465 cells (249 nonzero), mismatches vs brute force: []  -> PASS
+[3] brute-force M(k) for k = 1..16: [1, 2, 4, 5, 7, 10, 12, 13, 15, 18, 21, 24, 25, 29, 30, 33]
+    brute-force optimal-set counts:       [1, 1, 2, 1, 1, 7, 5, 1, 1, 2, 1, 13, 1, 5, 1, 1]
+    mismatches against OEIS A364132 (cache, 22 terms): []
+VALIDATION PASSED

@@ -1,0 +1,7 @@
+R1 m=20: proof offset 42*211 = 8862; largest colliding t = 178 (0.844 of the proof's offset)
+R1 m=60: proof offset 42*1831 = 76902; largest colliding t = 1727 (0.943 of the proof's offset)
+R1 m=100: proof offset 42*5051 = 212142; largest colliding t = 4891 (0.968 of the proof's offset)
+R2 k=40: B=307, valid=True, max=365, k/sqrt(max)=2.0937
+R2 k=100: B=1889, valid=True, max=2038, k/sqrt(max)=2.2151
+R2 k=200: B=7527, valid=True, max=7826, k/sqrt(max)=2.2608
+R2 k=400: B=30052, valid=True, max=30650, k/sqrt(max)=2.2848

@@ -1,0 +1,4 @@
+E1 {'R': [2, 7, 11, 25, 26, 34], '-R': [8, 16, 17, 31, 35, 40], 'R+21': [4, 5, 13, 23, 28, 32], '-R+21': [10, 14, 19, 29, 37, 38]} all reported: True
+E2 every j in 1..499 has a good u; smallest good fraction 0.6384 at j=16  (12.6s)
+E3 j=2: left end of U = 1177; largest u < left end with a coincidence of another type = 1131; largest u per case {'i': 1092, 'iii': 1131, 'iv,h>=24': 848}
+E3 j=3: left end of U = 2629; largest u < left end with a coincidence of another type = 2561; largest u per case {'i': 2506, 'iii': 2561, 'iv,h>=24': 1943}

@@ -1,0 +1,2 @@
+17399b1c943665bd75469510f52bedc64d7ffd9c6bb2606fb7ef382c125ace79 *<build-dir>/exact.exe
+331cf40c4b1821284eae8ee87f64b23b3b654aa4e883cb7a71a99039d88d8db9 *<build-dir>/brute.exe
