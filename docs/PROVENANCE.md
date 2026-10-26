@@ -51,8 +51,8 @@ that is found to be wrong.
   - the final sentence of the responsibility statement;
   - bibliography comments.
 
-  The theorems, proofs and computations are unchanged. Release v1.1 revises the account of Hegyvári (1986), adds the exact commit of
-  release v1.0, qualifies the reported residue-pattern searches, corrects the expository statements listed in
+  The theorems, proofs and computations are unchanged. Release v1.1 revises the account of Hegyvári (1986), cites release v1.1 of this
+  repository, qualifies the reported residue-pattern searches, corrects the expository statements listed in
   [REVIEWS.md](REVIEWS.md), Section 5, and shortens the statement on AI use. The theorems and computations are unchanged; Proposition 4.6
   now states the hypothesis t ≥ 0, which its proof uses and its Lean form assumes.
 - **`verification/`.** The verification scripts from the frozen package, made portable, with the logs of a run on a fresh clone of

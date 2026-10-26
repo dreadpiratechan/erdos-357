@@ -68,7 +68,7 @@ C.~Lenthall-Cleary, \emph{Proof claim for {E}rd{\H{o}}s {P}roblem 357: {$f(n)\le
 Bart{\l}omiej Pawlik, \emph{Sequence {A364132}}, The On-Line Encyclopedia of Integer Sequences, \url{https://oeis.org/A364132}, 2023, Terms $a(14)$--$a(22)$ by Jinyuan Wang; accessed 26 October 2026.
 
 \bibitem{Artifact}
-Chandler Snively, \emph{Erd{\H{o}}s {P}roblem 357: {L}ean formalization, verification scripts and computations}, \url{https://github.com/dreadpiratechan/erdos-357}, 2026, Release v1.0, commit \texttt{b8e9a5a} (23 October 2026), \url{https://github.com/dreadpiratechan/erdos-357/tree/b8e9a5a3a0757a74663e857079e1d4dbee42cf10}.
+Chandler Snively, \emph{Erd{\H{o}}s {P}roblem 357: {L}ean formalization, verification scripts and computations}, \url{https://github.com/dreadpiratechan/erdos-357}, 2026, Release v1.1 (26 October 2026), \url{https://github.com/dreadpiratechan/erdos-357/tree/v1.1}.
 
 \bibitem{Straus1966}
 E.~G. Straus, \emph{On a problem in combinatorial number theory}, J. Math. Sci. \textbf{1} (1966), 77--80.
