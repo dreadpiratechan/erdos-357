@@ -23,9 +23,10 @@ that is found to be wrong.
 | Date (2026) | What was produced | By |
 |---|---|---|
 | 9 September | The modulus-22 residue pattern (2, 6, 9, 12, 18, 19), found by an exhaustive search over residue patterns modulo q ≤ 22, and a Lean proof of f(n) ≥ (12/√22)·√n − 36. This is the predecessor of Theorem 1.2; it is not a theorem of the paper. | An autonomous coding agent: OpenAI Codex, model identifier `gpt-6-astra` |
-| Night of 22–23 October | The modulus-42 pattern and Theorem 1.2; the skip construction and Theorem 1.3; the first two upper bounds, with constants 125/252 and 797/1620 (Remark 4.9); their Lean proofs; exact values of f(n) for n ≤ 77, from two exhaustive programs | A multi-agent run of Claude models (Anthropic), coordinated by an AI agent. The coordinator's log records Claude Sonnet 5.5; one commit names Claude Opus 5.5. |
-| 23 October (day) | Theorem 1.1: the five-band design, the generated Lean module `P0357Upper4.lean` and its proof | A further Claude agent; its commit names Claude Sonnet 5.5 |
-| 23 October | The independent audits: clean rebuilds, axiom audits, kernel replay, the upstream definition pin, exact-arithmetic checks and the literature searches. Also: the written proofs in their present form; the manuscript; two AI referee reviews; the independent recomputation of the exact values; and this release | Claude (Anthropic), model Claude Opus 5.5, and subagents it started |
+| 23 October | The modulus-42 pattern and Theorem 1.2; the skip construction and Theorem 1.3; the first two upper bounds, with constants 125/252 and 797/1620 (Remark 4.9); their Lean proofs; exact values of f(n) for n ≤ 77, from two exhaustive programs | Autonomous AI agents built on Claude models (Anthropic; Claude Sonnet 5.5 and Claude Opus 5.5) |
+| 23 October (day) | Theorem 1.1: the five-band design, the generated Lean module `P0357Upper4.lean` and its proof | A further Claude agent (Claude Sonnet 5.5) |
+| 23 October | The independent audits: clean rebuilds, axiom audits, kernel replay, the upstream definition pin, exact-arithmetic checks and the literature searches. Also: the written proofs in their present form; the manuscript; two AI referee reviews; the independent recomputation of the exact values; and this release | Claude (Anthropic), model Claude Opus 5.5 |
+| 26 October | Release v1.1: Hegyvári (1986) read in full, the literature searches repeated, the manuscript's literature discussion and statement on AI use revised, fresh adversarial reviews of the proofs, and the verification reproduced from a fresh clone | Claude (Anthropic), model Claude Opus 5.5 |
 
 ## What is in this repository, and where it came from
 
@@ -50,7 +51,10 @@ that is found to be wrong.
   - the final sentence of the responsibility statement;
   - bibliography comments.
 
-  The theorems, proofs and computations are unchanged.
+  The theorems, proofs and computations are unchanged. Release v1.1 revises the account of Hegyvári (1986), adds the exact commit of
+  release v1.0, qualifies the reported residue-pattern searches, corrects the expository statements listed in
+  [REVIEWS.md](REVIEWS.md), Section 5, and shortens the statement on AI use. The theorems and computations are unchanged; Proposition 4.6
+  now states the hypothesis t ≥ 0, which its proof uses and its Lean form assumes.
 - **`verification/`.** The verification scripts from the frozen package, made portable, with the logs of a run on a fresh clone of
   this repository (Windows 10, Git Bash, 23 October 2026). On that machine the Mathlib build cache was already downloaded, so the
   download from scratch was not part of the run.

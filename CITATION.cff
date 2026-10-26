@@ -3,7 +3,7 @@ message: >-
   If you use these results, please cite the paper. Until it has an arXiv identifier,
   cite this repository and the release tag you used.
 title: "Erdős Problem 357: Lean formalization, verification scripts and computations"
-version: "1.0.0"
+version: "1.1.0"
 license: Apache-2.0
 repository-code: "https://github.com/dreadpiratechan/erdos-357"
 url: "https://quanalabs.com"

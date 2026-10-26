@@ -11,16 +11,16 @@
 Adrian Beker, \emph{On a problem of {E}rd{\H{o}}s and {G}raham about consecutive sums in strictly increasing sequences}, Bull. Lond. Math. Soc. \textbf{56} (2024), no.~8, 2749--2759, arXiv:2311.10087.
 
 \bibitem{EP1213}
-Thomas~F. Bloom, \emph{Erd{\H{o}}s {P}roblem \#1213}, \url{https://www.erdosproblems.com/1213}, Accessed 23 October 2026.
+Thomas~F. Bloom, \emph{Erd{\H{o}}s {P}roblem \#1213}, \url{https://www.erdosproblems.com/1213}, Accessed 26 October 2026.
 
 \bibitem{EP357}
-\bysame, \emph{Erd{\H{o}}s {P}roblem \#357}, \url{https://www.erdosproblems.com/357}, Accessed 23 October 2026.
+\bysame, \emph{Erd{\H{o}}s {P}roblem \#357}, \url{https://www.erdosproblems.com/357}, Accessed 26 October 2026.
 
 \bibitem{EP874}
-\bysame, \emph{Erd{\H{o}}s {P}roblem \#874}, \url{https://www.erdosproblems.com/874}, Accessed 23 October 2026.
+\bysame, \emph{Erd{\H{o}}s {P}roblem \#874}, \url{https://www.erdosproblems.com/874}, Accessed 26 October 2026.
 
 \bibitem{chy4pro}
-{chy4pro}, \emph{erdos-357-distinct-block-sums}, \url{https://github.com/chy4pro/erdos-357-distinct-block-sums}, Table of $f(n)$ for $n\le53$ with witnesses; accessed 23 October 2026.
+{chy4pro}, \emph{erdos-357-distinct-block-sums}, \url{https://github.com/chy4pro/erdos-357-distinct-block-sums}, Table of $f(n)$ for $n\le53$ with witnesses; accessed 26 October 2026.
 
 \bibitem{CoppersmithPhillips1996}
 Don Coppersmith and Steven Phillips, \emph{On a question of {E}rd{\H{o}}s on subsequence sums}, SIAM J. Discrete Math. \textbf{9} (1996), no.~2, 173--177.
@@ -35,10 +35,10 @@ Jean-Marc Deshouillers and Gregory~A. Freiman, \emph{On an additive problem of {
 \bysame, \emph{On an additive problem of {E}rd{\H{o}}s and {S}traus, 2}, Ast\'erisque \textbf{258} (1999), 141--148.
 
 \bibitem{EPDay2026}
-{Erd{\H{o}}s Problem a Day}, \emph{357: half the runs}, \url{https://erdosproblemaday.com/day/357-half-the-runs}, Erd{\H{o}}s Problem a Day, 24 July 2026; accessed 23 October 2026.
+{Erd{\H{o}}s Problem a Day}, \emph{Erd{\H{o}}s \#357: how many strictly increasing numbers can you pick with every run-sum distinct? {A} clean new ceiling}, \url{https://erdosproblemaday.com/day/357-half-the-runs}, Erd{\H{o}}s Problem a Day, 24 July 2026; accessed 26 October 2026.
 
 \bibitem{EP357forum}
-{Erd{\H{o}}s Problems forum}, \emph{Discussion thread for {P}roblem 357}, \url{https://www.erdosproblems.com/forum/thread/357}, Comments by D.~Weisenberg (24 August 2025, 9 December 2025), Q.~Tang (8 December 2025) and J.~Pickhardt (31 August 2026); accessed 23 October 2026.
+{Erd{\H{o}}s Problems forum}, \emph{Discussion thread for {P}roblem 357}, \url{https://www.erdosproblems.com/forum/thread/357}, Comments by D.~Weisenberg (24 August 2025, 9 December 2025), Q.~Tang (8 December 2025) and J.~Pickhardt (31 August 2026); accessed 26 October 2026.
 
 \bibitem{Erdos1977}
 Paul Erd{\H{o}}s, \emph{Problems and results on combinatorial number theory {III}}, Number Theory Day (Proc. Conf., Rockefeller Univ., New York, 1976), Lecture Notes in Math., vol. 626, Springer, Berlin, 1977, pp.~43--72.
@@ -47,7 +47,7 @@ Paul Erd{\H{o}}s, \emph{Problems and results on combinatorial number theory {III
 Paul Erd{\H{o}}s and Ronald~L. Graham, \emph{Old and new problems and results in combinatorial number theory}, Monographies de L'Enseignement Math\'ematique, vol.~28, Universit\'e de Gen\`eve, L'Enseignement Math\'ematique, Geneva, 1980.
 
 \bibitem{FormalConjectures}
-{Google DeepMind and the Formal Conjectures contributors}, \emph{Formal {C}onjectures}, \url{https://github.com/google-deepmind/formal-conjectures}, File \texttt{FormalConjectures/ErdosProblems/357.lean}; accessed 23 October 2026.
+{Google DeepMind and the Formal Conjectures contributors}, \emph{Formal {C}onjectures}, \url{https://github.com/google-deepmind/formal-conjectures}, File \texttt{FormalConjectures/ErdosProblems/357.lean}; accessed 26 October 2026.
 
 \bibitem{Hegyvari1986}
 N.~Hegyv\'ari, \emph{On consecutive sums in sequences}, Acta Math. Hungar. \textbf{48} (1986), no.~1--2, 193--200.
@@ -59,16 +59,16 @@ Jakub Konieczny, \emph{On consecutive sums in permutations}, J. Comb. \textbf{12
 {Lean FRO}, \emph{lean4checker}, \url{https://github.com/leanprover/lean4checker}, Tag \texttt{v4.27.0}.
 
 \bibitem{EP357claims}
-C.~Lenthall-Cleary, \emph{Proof claim for {E}rd{\H{o}}s {P}roblem 357: {$f(n)\le n/2+O(n^{2/3})$}}, Erd{\H{o}}s problems forum, proof claims for Problem 357. A draft with the same bound, dated the same day, is at \url{https://github.com/chapinalc/chapinerdos}, Submitted 27 July 2026; not refereed; accessed 23 October 2026.
+C.~Lenthall-Cleary, \emph{Proof claim for {E}rd{\H{o}}s {P}roblem 357: {$f(n)\le n/2+O(n^{2/3})$}}, Erd{\H{o}}s problems forum, proof claims for Problem 357. A draft with the same bound, dated the same day, is at \url{https://github.com/chapinalc/chapinerdos}, Submitted 27 July 2026; not refereed; accessed 26 October 2026.
 
 \bibitem{Pickhardt2026}
-{Paratelligent Research Agent} and Jeff Pickhardt, \emph{New bounds for sequences with distinct consecutive sums in {E}rd{\H{o}}s {P}roblem 357}, \url{https://paratelligent.com/research/papers/new-bounds-for-sequences-with-distinct-consecutive-sums-in-erds-1hwQTOM4}, 2026, Manuscript dated 14 July 2026, announced on the Erd{\H{o}}s Problems forum on 31 August 2026; accessed 23 October 2026.
+{Paratelligent Research Agent} and Jeff Pickhardt, \emph{New bounds for sequences with distinct consecutive sums in {E}rd{\H{o}}s {P}roblem 357}, \url{https://paratelligent.com/research/papers/new-bounds-for-sequences-with-distinct-consecutive-sums-in-erds-1hwQTOM4}, 2026, Manuscript dated 14 July 2026, announced on the Erd{\H{o}}s Problems forum on 31 August 2026; accessed 26 October 2026.
 
 \bibitem{OEISA364132}
-Bart{\l}omiej Pawlik, \emph{Sequence {A364132}}, The On-Line Encyclopedia of Integer Sequences, \url{https://oeis.org/A364132}, 2023, Terms $a(14)$--$a(22)$ by Jinyuan Wang; accessed 23 October 2026.
+Bart{\l}omiej Pawlik, \emph{Sequence {A364132}}, The On-Line Encyclopedia of Integer Sequences, \url{https://oeis.org/A364132}, 2023, Terms $a(14)$--$a(22)$ by Jinyuan Wang; accessed 26 October 2026.
 
 \bibitem{Artifact}
-Chandler Snively, \emph{Erd{\H{o}}s {P}roblem 357: {L}ean formalization, verification scripts and computations}, \url{https://github.com/dreadpiratechan/erdos-357}, 2026, Release v1.0.
+Chandler Snively, \emph{Erd{\H{o}}s {P}roblem 357: {L}ean formalization, verification scripts and computations}, \url{https://github.com/dreadpiratechan/erdos-357}, 2026, Release v1.0, commit \texttt{b8e9a5a} (23 October 2026), \url{https://github.com/dreadpiratechan/erdos-357/tree/b8e9a5a3a0757a74663e857079e1d4dbee42cf10}.
 
 \bibitem{Straus1966}
 E.~G. Straus, \emph{On a problem in combinatorial number theory}, J. Math. Sci. \textbf{1} (1966), 77--80.

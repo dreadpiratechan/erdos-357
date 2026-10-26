@@ -34,7 +34,7 @@
 \email{lab@quanalabs.com}
 \urladdr{https://quanalabs.com}
 
-\date{23 October 2026}
+\date{26 October 2026}
 
 \subjclass[2020]{11B13, 11B75, 05D05}
 \keywords{distinct consecutive sums, block sums, Sidon sets, Erd\H{o}s problems, formal verification, Lean}
@@ -90,9 +90,9 @@ and consequently
 \]
 \end{theorem}
 
-Because of its large additive constant, the right-hand side is below $n/2$ exactly for $n\ge 23202647$. The same method with a
+Because of its large additive constant, the right-hand side of the second display is below $n/2$ exactly for $n\ge 23202647$. The same method with a
 simpler design gives $f(n)\le\frac{797}{1620}n+2\sqrt n+7$ for all $n$ (Remark~\ref{rem:797}; it is proved in Lean, and we give only an outline); its right-hand side is below $n/2$ exactly
-for $n\ge63849$, and it is the smaller of the two bounds for every $n\le3348973255$.
+for $n\ge63849$, and of the two real forms it gives the smaller bound for every $n\le3348973255$.
 
 \begin{theorem}[Lower bound, modulus $42$]\label{thm:mod42}
 For every integer $m\ge0$ we have $f(21m^2+105m+46)\ge 12m$ (for $m=0$ the empty sequence). Consequently, for every $n\ge0$,
@@ -124,7 +124,11 @@ The gap between $\sqrt n$ and $n$ is untouched: nothing in this paper bears on w
 All statements of Theorems~\ref{thm:upper}--\ref{thm:skip}, and the variant in Remark~\ref{rem:797}, are formally verified in the Lean~4
 proof assistant \cite{Lean4} with the Mathlib library \cite{Mathlib2020}, against a definition of $f$ that is definitionally equal to the
 one in the Formal Conjectures project \cite{FormalConjectures} (Section~\ref{sec:formal}). The Lean files, the scripts that
-repeat every check, and the programs and data of Section~\ref{sec:computations} are in the accompanying repository \cite{Artifact}. The written proofs of
+repeat every check, and the programs and data of Section~\ref{sec:computations} are in the accompanying public repository \cite{Artifact} (release v1.0, commit \texttt{b8e9a5a}). The manuscript in that release
+is the 23 October 2026 version of this paper; the present version corrects its account of \cite{Hegyvari1986}, corrects some expository
+statements found in a further review (among them the hypothesis $t\ge0$ of Proposition~\ref{prop:account}, which its proof uses, and
+the form of Theorem~\ref{thm:upper} to which the stated thresholds refer), and shortens the statement on AI use. The theorems, their
+proofs and the formal development are unchanged. The written proofs of
 Theorems~\ref{thm:upper}--\ref{thm:skip} in Sections~\ref{sec:notation}--\ref{sec:skip} are complete without the formalization;
 Remark~\ref{rem:797} is proved only in Lean. The formal proofs follow the same arguments, so they check those arguments mechanically;
 they are not independent proofs.
@@ -132,7 +136,9 @@ they are not independent proofs.
 \subsection*{How the results were obtained}
 The constructions, the proofs and their formalizations were produced by AI systems, under the direction of the author; the statement on
 AI use at the end gives the details, and Section~\ref{sec:discovery} describes how the ideas arose. We report this because it is relevant
-to how the results should be checked, and we have arranged the paper so that every step can be checked by hand.
+to how the results should be checked, and we have arranged the paper so that every step can be checked by hand. The proofs have undergone AI-assisted verification: the
+formal verification of Section~\ref{sec:formal}, independent recomputation of every finite step (Section~\ref{sec:computations}), and
+adversarial reviews by separate AI systems. They have not received independent human review, and the paper has not been refereed.
 
 \subsection*{Organization}
 Section~\ref{sec:previous} reviews previous bounds. Section~\ref{sec:notation} fixes notation and proves two reductions.
@@ -145,9 +151,13 @@ the results were found, and Section~\ref{sec:limits} discusses limitations.
 
 Table~\ref{tab:lit} lists the bounds on $f$ known to us. Except where marked, we took the bounds from the sources as recorded in
 \cite{EP357} and its forum \cite{EP357forum}, without checking them against the original papers. For the non-monotone analogue
-$g(n)\ge f(n)$, in which the $a_i$ need not increase, Hegyv\'ari \cite{Hegyvari1986} proved $(\frac13+o(1))n\le g(n)\le(\frac23+o(1))n$
-(as recorded in \cite{EP357}, in the zbMATH review of \cite{Hegyvari1986}, and in \cite{Beker2024,Konieczny2021}); the upper bound
-applies to $f$, the lower bound does not. Coppersmith and Phillips \cite{CoppersmithPhillips1996} studied the weaker property that no term
+$g(n)\ge f(n)$, in which the $a_i$ need not increase, Hegyv\'ari \cite[Theorem~1]{Hegyvari1986} proved
+$(\frac13+o(1))n\le g(n)\le(\frac23+o(1))n$ (see also \cite{Beker2024,Konieczny2021}); the upper bound applies to $f$, the lower bound
+does not. In the same paper Hegyv\'ari studied shifts of a fixed increasing sequence: for $A=\{1,\dots,k\}$ the least $t$ for which
+$\{t+1,\dots,t+k\}$ is valid satisfies $(1+o(1))k^2/25<t<k^2/4$ \cite[Theorem~2]{Hegyvari1986}. The upper estimate, proved with
+$t=\lfloor k^2/4\rfloor$, gives $f(n)\ge(2-o(1))\sqrt n$, although Hegyv\'ari does not state it in this form; and the idea of separating
+blocks of different lengths by a large common offset, which \cite{Pickhardt2026} and Sections~\ref{sec:mod42}--\ref{sec:skip} combine
+with congruence conditions, appears there. Coppersmith and Phillips \cite{CoppersmithPhillips1996} studied the weaker property that no term
 is the sum of a block of two or more consecutive earlier terms. A valid sequence has this property, since such a term would collide with the
 block consisting of that term alone, so their upper bound applies to $f$; they also constructed sequences with the weaker property of length
 $\frac{13}{24}n-O(1)$, so no bound below $\frac{13}{24}n$ can use that property alone (we read only the abstract of
@@ -161,12 +171,13 @@ $\frac{13}{24}n-O(1)$, so no bound below $\frac{13}{24}n$ can use that property 
 \toprule
 Source & Year & Bound on $f(n)$ & Status\\
 \midrule
+Hegyv\'ari \cite[Thm.~2]{Hegyvari1986} & 1986 & $\ge(2-o(1))\sqrt n$ & published; implicit in the shifted interval; full text read\\
 Straus \cite{Straus1966}, via Weisenberg \cite{EP357forum} & 1966/2025 & $\ge(2+o(1))\sqrt n$ & published construction; observation in a forum comment\\
 Pickhardt \cite{Pickhardt2026} & 2026 & $\ge(4/\sqrt3-o(1))\sqrt n$ & web preprint, full text read\\
 This paper, Thm.~\ref{thm:mod42} & 2026 & $\ge\frac{12}{\sqrt{21}}\sqrt n-48$ & formally verified\\
 This paper, Thm.~\ref{thm:skip} & 2026 & $\ge\frac{15}{\sqrt{21}}\sqrt n-1800$ ($n\ge12096\cdot504^2$) & formally verified\\
 \midrule
-Hegyv\'ari \cite{Hegyvari1986} (via $f\le g$) & 1986 & $\le(\frac23+o(1))n$ & published; quoted from \cite{EP357} and the zbMATH review\\
+Hegyv\'ari \cite{Hegyvari1986} (via $f\le g$) & 1986 & $\le(\frac23+o(1))n$ & published (Theorem~1, proved for $g$); full text read\\
 Coppersmith--Phillips \cite{CoppersmithPhillips1996}, via Weisenberg \cite{EP357forum} & 1996/2025 & $\le(\frac23-\frac1{512})n+O(\log n)$ & published result; transfer to $f$ in a forum comment\\
 Beker \cite{Beker2024}, via Tang \cite{EP357forum} & 2024/2025 & $\le(\sqrt{\tanh 1}+o(1))n$, $\sqrt{\tanh1}=0.87269\ldots$ & published result; deduction in a forum comment; weaker than the two rows above\\
 Erd\H{o}s Problem a Day \cite{EPDay2026} & 2026 & $\le \frac n2+O(\sqrt n)$ & informal report; a version of its argument is Corollary~\ref{cor:crossing}\\
@@ -174,7 +185,7 @@ Pickhardt \cite{Pickhardt2026}; Lenthall-Cleary \cite{EP357claims} & 2026 & $\le
 This paper, Thm.~\ref{thm:upper} & 2026 & $\le\frac{44273}{90000}n+2\sqrt n+177792$ & formally verified\\
 \bottomrule
 \end{tabular}
-\caption{Bounds on $f(n)$ known to us on 23 October 2026.}
+\caption{Bounds on $f(n)$ known to us on 26 October 2026.}
 \label{tab:lit}
 \end{table}
 
@@ -189,11 +200,12 @@ To our knowledge, Theorem~\ref{thm:upper} is the first bound of the form $f(n)\l
 was obtained informally in July 2026 \cite{EPDay2026,Pickhardt2026,EP357claims}. Also to our knowledge, the constants
 $\frac{12}{\sqrt{21}}$ and $\frac{15}{\sqrt{21}}$, the constructions of Sections~\ref{sec:mod42}--\ref{sec:skip} and the design of Section~\ref{sec:upper} have not appeared in
 the literature; the lower-bound method is Pickhardt's \cite{Pickhardt2026}, with a different pattern and an additional skip. These
-statements rest on the literature searches described in the file \path{docs/LITERATURE.md} of the repository \cite{Artifact}, which
-is not a proof of novelty. We could not
-obtain the full texts of \cite{Hegyvari1986} and \cite{CoppersmithPhillips1996}. According to \cite{EP1213}, that paper contains a theorem that integer sequences with
-bounded gaps contain two blocks of different lengths with equal sums; Lemma~\ref{lem:pattern}(b) below is the simplest instance of
-this principle, and we do not know whether \cite{Hegyvari1986} uses it to bound $f$ or $g$. Hegyv\'ari lectured on consecutive sums,
+statements rest on the literature searches described in the file \path{docs/LITERATURE.md} of the repository \cite{Artifact}, on a
+repetition of those searches on 26 October 2026 that found nothing new, and on a reading of the full text of \cite{Hegyvari1986}; such
+searches are not a proof of novelty. We could not obtain the full text of \cite{CoppersmithPhillips1996} and read only its abstract.
+Theorem~3 of \cite{Hegyvari1986} (see also \cite{EP1213}) shows that an increasing sequence with bounded gaps whose terms are large
+enough contains two different blocks with equal sums; Lemma~\ref{lem:pattern}(b) below is the simplest instance of this principle.
+Hegyv\'ari does not use it to bound $f$ or $g$; his upper bound on $g$ comes from counting the sums of short blocks. Hegyv\'ari lectured on consecutive sums,
 Sidon sets and convex sequences at the CANT conference in 2026; we know only the title and abstract. We cannot exclude unpublished or
 unindexed work.
 
@@ -267,9 +279,10 @@ most $n-t=\lfloor(n+1)/2\rfloor$ of them. If $P(y)\le t$ then $y^2<y(y+1)\le 2P(
 indices $y$ have $P(y)\le t$.
 \end{proof}
 
-This is a version of the argument of \cite{EPDay2026}; we claim no credit for it. It is tight in its main term only for sets like
-$A=(n/2,n]\cap\Z$, where every block with sum at most $n$ is a single term. Any further gain must therefore come from coincidences of
-block sums larger than $n$; we use sums of order $n^2$, of runs of consecutive integers.
+This is a version of the argument of \cite{EPDay2026}; we claim no credit for it. It is tight in its main term only when the map $\sigma$ of
+Lemma~\ref{lem:canon} covers almost all of $(t,n]$, as it does for $A=(n/2,n]\cap\Z$, where every block with sum at most $n$ is a single
+term (that set itself is not valid once $n$ is large). Any further gain must therefore come from coincidences of block sums larger than
+$n$; we use runs of a few consecutive integers, whose sums are a few times $n$.
 
 \subsection{Lengthening a block by one term}
 
@@ -303,7 +316,7 @@ $T(x^*-1,y)\le n$. Take $x'=x^*-1<c$.
 For integers $t\le\theta$ let $H=\{z\in\Z:t<z\le\theta,\ z\notin A\}$ be the set of \emph{holes} of $A$ in $(t,\theta]$.
 
 \begin{proposition}[Accounting]\label{prop:account}
-Let $t,\theta$ be integers with $2t\le n$, $t\le\theta\le n$ and $3\theta\le 2n+4$. Then
+Let $t,\theta$ be integers with $0\le 2t\le n$, $t\le\theta\le n$ and $3\theta\le 2n+4$. Then
 \[
   k+|H|\;\le\;(n-t)+\isqrt{2\theta}.
 \]
@@ -462,13 +475,13 @@ for $n\ge3348973256$.
 Two features of the proof cap what it can give. First, the holes are counted only in $(t,\theta]$, and Remark~\ref{rem:chainsharp} shows
 that Lemma~\ref{lem:chain} fails beyond $\theta$; a two-term canonical block with sum in $(2n/3,3n/4]$ can have a left neighbour that
 makes the sum exceed $n$. Second, the hole count uses only the run pairs $(Y_{\ell,w},X_{\ell,w})$ with supports in zones of bounded
-overlap. Numerical experiments recorded in the research repository are not part of the proofs and were not re-run for this paper. In
-them, the linear-programming optimum over interval designs was $0.008105\ldots n$ holes, against $\frac{2908}{360000}n=0.00807\ldots n$
+overlap. Numerical experiments recorded in the private research repository (Section~\ref{sec:formal}) are not part of the proofs, are not in
+the public repository \cite{Artifact}, and were not re-run for this paper. In them, the linear-programming optimum over interval designs was $0.008105\ldots n$ holes, against $\frac{2908}{360000}n=0.00807\ldots n$
 here. That model used run pairs of lengths $p$ and $q$ with $q\le24$ and $1<p/q<4/3$, on a grid of $240$ cells. The fractional
 hitting-set optimum over all equal-sum run pairs inside $(t,\theta]$, computed only at $n=3000$, was about $30.3$ holes, that is about
-$0.0101n$. These computations are exploratory, and the second, at a single small $n$, does not give an asymptotic constant. They suggest
-that the interval accounting used here is close to its limit, but we do not claim that the method is limited to any particular
-constant.
+$0.0101n$. These computations are exploratory and cannot be checked from the public repository, and the second, at a single small $n$, does
+not give an asymptotic constant. The first suggests that interval designs of this kind cannot do much better than the five bands used
+here; we do not claim that the method is limited to any particular constant.
 \end{remark}
 
 \section{The modulus-42 pattern}\label{sec:mod42}
@@ -730,9 +743,9 @@ The formal development consists of six Lean~4 \cite{Lean4} files, which import o
 \toprule
 file & content\\
 \midrule
-\path{P0357.lean} & definitions; Lemmas~\ref{lem:ordered}, \ref{lem:spectra}; Theorem~\ref{thm:mod42}; Corollary~\ref{cor:crossing}\\
+\path{P0357.lean} & definitions; Lemmas~\ref{lem:ordered}, \ref{lem:formal}, \ref{lem:spectra}; Theorem~\ref{thm:mod42}; Corollary~\ref{cor:crossing}\\
 \path{P0357Skip.lean} & Section~\ref{sec:skip}; Theorem~\ref{thm:skip}\\
-\path{P0357Upper.lean} & Lemmas~\ref{lem:formal}--\ref{lem:beyond}; Proposition~\ref{prop:account}\\
+\path{P0357Upper.lean} & Lemmas~\ref{lem:canon}, \ref{lem:chain}, \ref{lem:beyond}; Proposition~\ref{prop:account}\\
 \path{P0357Upper2.lean} & Lemma~\ref{lem:pattern}; Remark~\ref{rem:797}\\
 \path{P0357Upper4Gen.lean} & double counting over bands (the last display of the proof of Proposition~\ref{prop:design})\\
 \path{P0357Upper4.lean} & the five bands, their degree bound, Proposition~\ref{prop:design}, Theorem~\ref{thm:upper}\\
@@ -837,7 +850,8 @@ block contains $b$, and $(s+12)d=72u+66+12b$.
 \item For every $j\le499$ the interval $U$ contains an offset with no pair $(L,\delta)$ (the smallest proportion of such offsets is
 $0.638$, at $j=16$). This is the finite check mentioned in Remark~\ref{rem:j230}.
 \item The exact number of bad $u$ is $337{,}866$ of $10^6$ for $j=500$, against the bound $1944.4j+12768$ of
-Proposition~\ref{prop:counting}; the counting step has about a factor $3$ to spare.
+Proposition~\ref{prop:counting}: the counting bound overestimates the number of bad offsets by about a factor $3$, although the
+proved bound itself leaves only about $2$ per cent of $U$ to spare.
 \end{enumerate}
 
 \subsection*{Exact values for small $n$}
@@ -866,7 +880,7 @@ is one of the two valid $28$-term sequences with largest term $75$.
 
 \subsection*{Greedy sequences}
 Greedy constructions produce valid sequences much longer than our lower bounds for every $n$ we could reach. A reverse greedy
-construction gives a valid sequence of $26813=5.99\ldots\sqrt n$ terms in $\{1,\dots,n\}$, $n=2\cdot10^7$, against $11676$ terms from
+construction (take $a=n,n-1,\dots,1$ in turn and keep $a$ as the new first term whenever the sequence stays valid) gives a valid sequence of $26813=5.99\ldots\sqrt n$ terms in $\{1,\dots,n\}$, $n=2\cdot10^7$, against $11676$ terms from
 Theorem~\ref{thm:mod42}'s construction at the same $n$. The sequence was regenerated deterministically for this paper, and two separately
 written programs confirmed that it is strictly increasing and that all $26813\cdot26814/2=359{,}481{,}891$ of its block sums are distinct. We do not know whether $f(n)/\sqrt n$ is bounded, and finite data do not decide it.
 
@@ -875,12 +889,14 @@ written programs confirmed that it is strictly increasing and that all $26813\cd
 The work was done by AI agents, as described in the statement on AI use. We summarize what the records show, because it explains the
 shape of the constructions.
 
-\emph{Lower bounds.} Pickhardt's construction is a periodic pattern in the sense of Remark~\ref{rem:score}, with $q=3$ and $p=2$. On
-9 September 2026 an exhaustive search over all residue sets modulo $q\le22$, ranked by the score of Remark~\ref{rem:score}, found the
-modulus-$22$ pattern $(2,6,9,12,18,19)$ and a formal proof of $f(n)\ge\frac{12}{\sqrt{22}}\sqrt n-36$. On 23 October 2026 a
-branch-and-bound search for $23\le q\le60$ found patterns of score above $18/11$ only for $q=42$: four residue sets with $p=6$ and
-$\gamma=12$, namely $R$, $-R$, $R+21$ and $-R+21$ modulo $42$, where $R=\{2,7,11,25,26,34\}$; the search record also reports no pattern of
-score above $12/7$ for $61\le q\le78$. These search results are not needed for the proofs. The skip arose from a numerical experiment:
+\emph{Lower bounds.} Pickhardt's construction is a periodic pattern in the sense of Remark~\ref{rem:score}, with $q=3$ and $p=2$. According to the
+agents' records, an exhaustive search on 9 September 2026 over all residue sets modulo $q\le22$, ranked by the score of
+Remark~\ref{rem:score}, found the modulus-$22$ pattern $(2,6,9,12,18,19)$, together with a formal proof of
+$f(n)\ge\frac{12}{\sqrt{22}}\sqrt n-36$; on 23 October 2026 a branch-and-bound search for $23\le q\le60$ found patterns of score above
+$18/11$ only for $q=42$: four residue sets with $p=6$ and $\gamma=12$, namely $R$, $-R$, $R+21$ and $-R+21$ modulo $42$, where
+$R=\{2,7,11,25,26,34\}$; and the records report no pattern of score above $12/7$ for $61\le q\le78$. Independent re-runs of the
+exhaustive search confirm these results for $q\le34$; the claims for $35\le q\le78$ rest on the records alone, and the search programs
+are not part of the repository. These results are computational, and none of them is needed for the proofs. The skip arose from a numerical experiment:
 adding a multiple of $q$ to all terms beyond some index keeps every residue, and the smallest admissible offset was smallest with the jump
 near $0.8k$. The written proof of Section~\ref{sec:skip} and its formalization came afterwards; an intermediate version used a window of
 $4j^2$ offsets and gave the constant $360/\sqrt{12264}=3.2507\ldots$.
@@ -894,16 +910,15 @@ linear program over band designs, rounded to the grid $360000j$, gave the five b
 
 \begin{itemize}
 \item The main question, whether $f(n)=o(n)$, is untouched. Our upper bound improves the leading constant from $\frac12$ to
-$\frac{44273}{90000}$, a gain of $\frac{727}{90000}=0.00807\ldots$; Remark~\ref{rem:upperlimits} explains why we expect this accounting to stop near there.
-\item The upper bound of Theorem~\ref{thm:upper} is below $n/2$ only for $n\ge23202647$, and its additive constant $177792$ is an
+$\frac{44273}{90000}$, a gain of $\frac{727}{90000}=0.00807\ldots$; Remark~\ref{rem:upperlimits} records exploratory evidence that interval designs of this type cannot do much better.
+\item The upper bound of Theorem~\ref{thm:upper}, in its real form, is below $n/2$ only for $n\ge23202647$, and its additive constant $177792$ is an
 artifact of rounding the design to multiples of $360000$; it was not optimized.
 \item The lower bounds are of order $\sqrt n$; finite data suggest that $f(n)$ is considerably larger, and we do not know its order of
 growth. The analysis of the one-skip family stops at $15/\sqrt{21}$ (Remark~\ref{rem:constant}); other patterns, several skips or other
 jump sizes change the case analysis and have not been explored systematically.
 \item The threshold $n\ge12096\cdot504^2$ in Theorem~\ref{thm:skip} is an artifact of the formal proof (Remark~\ref{rem:j230}).
-\item Novelty is supported only by the searches described in \path{docs/LITERATURE.md} of the repository \cite{Artifact}; we have
-not read the full texts of
-\cite{Hegyvari1986} and \cite{CoppersmithPhillips1996} (of the latter only the abstract), and no expert in the area has been consulted.
+\item Novelty is supported only by the searches described in Section~\ref{sec:previous}; we have read the full text of
+\cite{Hegyvari1986} but only the abstract of \cite{CoppersmithPhillips1996}, and no expert in the area has been consulted.
 \item The proofs have been checked by machine and by AI systems; no independent human mathematician has checked them.
 \end{itemize}
 
@@ -914,16 +929,15 @@ set up and directed by the author, who chose the problem, commissioned the runs 
 \item The modulus-$22$ predecessor of Theorem~\ref{thm:mod42} was found and formally proved on 9 September 2026 by an autonomous coding
 agent (OpenAI Codex, model identifier \texttt{gpt-6-astra}).
 \item Theorem~\ref{thm:mod42}, Theorem~\ref{thm:skip}, the first two versions of the upper bound (constants $\frac{125}{252}$ and
-$\frac{797}{1620}$) and their formal proofs were produced on the night of 22--23 October 2026 by a multi-agent run of Claude models
-(Anthropic) coordinated by an AI agent; the coordinator's log records that the agents ran on Claude Sonnet~5.5, and the trailer of one
-commit names Claude Opus~5.5.
-\item Theorem~\ref{thm:upper} (the five-band design and its formal proof) was produced on 23 October 2026 by a further Claude agent in
-the same repository; its commit trailer names Claude Sonnet~5.5.
+$\frac{797}{1620}$) and their formal proofs were produced on 23 October 2026 by autonomous AI agents built on Claude models
+(Anthropic; Claude Sonnet~5.5 and Claude Opus~5.5).
+\item Theorem~\ref{thm:upper} (the five-band design and its formal proof) was produced later the same day by a further Claude agent
+(Claude Sonnet~5.5).
 \item The audits (independent rebuilds, axiom audits, kernel replay, independent computations, literature searches and adversarial
-reviews), the written proofs in their present form and the text of this paper were produced on 23 October 2026 with Claude (Anthropic,
-model Claude Opus~5.5).
+reviews), the written proofs in their present form and the text of this paper were produced between 23 and 26 October 2026 with Claude
+(Anthropic, model Claude Opus~5.5).
 \end{itemize}
-The records available to us (logs, commit history and the agents' reports) attribute the mathematics and the formal proofs to these AI
+The project's records attribute the mathematics and the formal proofs to these AI
 systems and record no human mathematical contribution.
 The results have not been checked by an independent human mathematician or refereed; they are supported by the formal verification of
 Section~\ref{sec:formal}. The author takes full responsibility for the content of this paper, including the accuracy of this statement, and for

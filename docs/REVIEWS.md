@@ -1,8 +1,8 @@
 # Internal reviews and how their findings were resolved
 
-Before release the work was reviewed three times. All three reviews were done by **AI systems** (Claude, Anthropic); none is a human
-or journal review. They are recorded here so that readers can see what was checked, what was found and what changed. The paper has
-not been peer reviewed.
+Before each release the work was reviewed by **AI systems** (Claude, Anthropic); none of these reviews is a human or journal review.
+They are recorded here so that readers can see what was checked, what was found and what changed. The paper has not been peer
+reviewed. Sections 1–4 concern release v1.0, Section 5 release v1.1.
 
 ## 1. Referee review of the first internal draft (23 October 2026)
 
@@ -98,7 +98,55 @@ A further error was found while the bibliography was rebuilt after these fixes. 
 reference to the Lenthall-Cleary claim printed n/2 + o(n^{2/3}) instead of n/2 + O(n^{2/3}). This was fixed. The same reference no
 longer attributes the matching GitHub draft to that author: the draft names no author, and the match rests on the bound and the date.
 
+## 5. Reviews for release v1.1 (26 October 2026)
+
+Before v1.1 the paper was reviewed again by Claude (Anthropic, model Claude Opus 5.5) and by agents it started. Each reviewer worked
+from the manuscript and the repository, and was asked to find errors rather than to confirm the paper.
+
+**Literature.** Hegyvári (1986) was read in full, from the scan of Acta Math. Hungar. 48 in REAL-J. It contains a lower bound
+f(n) ≥ (2 − o(1))·√n implicitly (Theorem 2, on shifted intervals), proves its upper bound on g by counting the sums of short blocks
+(Theorem 1), and proves the bounded-gap theorem quoted by erdosproblems.com/1213 (Theorem 3). It contains nothing on upper bounds below
+2n/3, on hole counting or on residue patterns. §2, Table 1 and the paragraph on novelty were corrected accordingly. The searches of
+[LITERATURE.md](LITERATURE.md) were repeated and found nothing new. Coppersmith–Phillips (1996) is still known only from its abstract.
+Every reference was checked again; one title (the Erdős Problem a Day entry) was corrected and the access dates were updated.
+
+**Adversarial review of the upper bound** (Sections 3–4, Theorem 1.1, Remark 4.9, and the Lean statements of Section 7).
+**Result: no mathematical error, gap or hidden assumption was found.** The reviewer re-derived the proofs by hand and wrote its own
+programs (exact integer arithmetic, and exhaustive Java searches):
+- the zone table, the band count 5816j and the multiplicity bound 2, by direct enumeration of every pattern for j = 1–13, 17, 20, 30
+  and 41;
+- the closing constants of Theorem 1.1, exhaustively for n < 5.82·10⁶ and at the worst case of every j up to 200000;
+- Lemmas 4.1, 4.3 and 4.7 and Proposition 4.6 on every valid sequence with last term at most 26 (233,624,014 cases of the accounting),
+  and the final inequality of Proposition 4.6 for last term at most 34 (about 1.05·10¹⁰ cases), with a mutation test to show that the
+  search detects violations;
+- f(n) for n ≤ 40, which reproduces M(1), …, M(18) and satisfies Corollary 4.2;
+- the thresholds 23,202,647, 63,849 and 3,348,973,256.
+Its findings were all about wording; they were resolved as follows.
+
+| # | Finding | Resolution |
+|---|---|---|
+| 1 | §4 said the proof uses block sums "of order n²"; the runs used have 4 to 10 terms and sums a few times n. | Corrected. |
+| 2 | The figures in Remark 4.10 come from experiments that are not in this repository. | Remark 4.10 now says so, and the Limitations no longer say that the remark explains where the method stops. |
+| 3 | Proposition 4.6 allowed t < 0, but its proof uses Lemma 4.1, which assumes t ≥ 0. | The hypothesis 0 ≤ 2t is now stated, as in the Lean theorem `main_count`, where t is a natural number. The proposition is only used with t ≥ 0. |
+| 4 | The thresholds 23,202,647 (below n/2) and 3,348,973,255 (crossover with 797/1620) hold for the real forms of the bounds, not the integer forms (23,202,421 and 4,405,949,070). | The text now says which form is meant. |
+| 5 | The paragraph after Corollary 4.2 used A = (n/2, n] as an example; that set is not valid once n is large. | Reworded. |
+| 6 | The table in §7 placed Lemma 3.2 in `P0357Upper.lean`; it is proved in `P0357.lean`. | Corrected. |
+
+Two further points were left as they are: §4 calls (n/2, 2n/3] the counting range, which is slightly loose but harmless, and the Lean
+comments cite the Formal Conjectures commit `c83a94d` (see Section 4).
+
+**Lower bounds.** An adversarial review of a closely related manuscript, whose Sections 5–6 contain the same arguments with small
+differences of wording, found no mathematical error. Its remarks on exposition led to two changes in §8: the counting margin of
+Proposition 6.4 is described more exactly, and the reverse greedy construction is defined.
+
+**Reproduction.** The verification was run from a fresh clone of v1.0 on Windows (`FETCH_CACHE=1`, lean4checker `v4.27.0`): every step
+passed. The workflow run on the v1.0 commit had passed on Linux.
+
+**What changed in the manuscript.** Compared with v1.0, Sections 3, 5 and 6 are unchanged, and 74 of the 76 theorems, proofs, remarks and
+displays are unchanged word for word. The other two are Proposition 4.6 (the hypothesis t ≥ 0) and Remark 4.10 (wording). No Lean
+file, script or data file changed.
+
 ## What none of the reviews did
 
-None of them was done by a human, none read the full texts of Hegyvári (1986) or Coppersmith–Phillips (1996), and none replaced
-journal peer review.
+None of them was done by a human, none read the full text of Coppersmith–Phillips (1996), and none replaced journal peer review.
+Hegyvári (1986) was read in full for v1.1.

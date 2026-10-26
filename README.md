@@ -17,6 +17,11 @@ a_i + a_{i+1} + … + a_j (1 ≤ i ≤ j ≤ k) are pairwise distinct. Erdős an
 > checked the proofs, and the paper has not been peer reviewed. The formal verification below is the main evidence for
 > correctness. See [docs/PROVENANCE.md](docs/PROVENANCE.md) and the statement on AI use at the end of the paper.
 
+**Release v1.1 (26 October 2026)** revises the manuscript's account of earlier work (Hegyvári 1986, now read in full), corrects
+several expository statements found in a further review ([docs/REVIEWS.md](docs/REVIEWS.md), Section 5), and shortens its statement
+on AI use. The theorems, Lean files, scripts and computations are unchanged from v1.0 (commit `b8e9a5a`); the only change to a stated
+result is that Proposition 4.6 now states the hypothesis t ≥ 0, which its proof uses and its Lean form assumes.
+
 ## Results and their status
 
 | Result | Statement | Status |
@@ -38,8 +43,9 @@ Some parts of the written proofs cover more cases than Lean does. These cases ar
 - Theorem 1.1 is the first bound f(n) ≤ (c + o(1))·n with c < 1/2;
 - the constants 12/√21 and 15/√21 are new.
 
-This rests on literature searches, which cannot prove novelty. Two relevant papers could be consulted only through abstracts and reviews:
-Hegyvári (1986) and Coppersmith–Phillips (1996). See [docs/LITERATURE.md](docs/LITERATURE.md).
+This rests on literature searches, which cannot prove novelty. Hegyvári (1986) has been read in full: it contains, implicitly, the
+earliest lower bound of order √n that we found, f(n) ≥ (2 − o(1))·√n, and nothing that affects the claims above. Coppersmith–Phillips (1996) could be consulted
+only through its abstract. See [docs/LITERATURE.md](docs/LITERATURE.md).
 
 ## What the formal verification establishes
 
@@ -116,6 +122,10 @@ RESULT: PASS
 ```
 
 The script exits with status 0 only if every step it ran passed; otherwise the summary ends with `RESULT: FAIL`.
+
+The verification was last reproduced from a fresh clone on 26 October 2026 (Windows 10, Git Bash, `FETCH_CACHE=1`, lean4checker
+`v4.27.0`): `RESULT: PASS` in about 10 minutes, including the Mathlib cache download. The workflow run on the v1.0 commit passed on
+Linux.
 
 On Windows, run the script from Git Bash; it uses `py` if present. **Clone to a short path**, such as `C:\erdos-357`. Mathlib's build
 cache contains deep paths, and under a long parent folder some of them exceed Windows' 260-character limit. The cache then unpacks
